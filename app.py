@@ -97,8 +97,8 @@ with tabs[2]:
 
     st.subheader("📅 Filtros de búsqueda")
     año = st.selectbox("Selecciona un año de lanzamiento", sorted(spotify_df["released_year"].dropna().unique()))
-    min_streams, max_streams = st.slider("Filtrar por streams", 0, int(spotify_df["streams"].max()), (1_000_000, 50_000_000), step=1_000_000)
-
+    max_streams_value = int(spotify_df["streams"].dropna().max())
+    min_streams, max_streams = st.slider("Filtrar por streams", 0, max_streams_value, (1_000_000, 50_000_000), step=1_000_000)
     orden = st.selectbox("Ordenar resultados por:", ["streams", "valence_%", "energy_%", "danceability_%"])
 
     filtrado = spotify_df[
