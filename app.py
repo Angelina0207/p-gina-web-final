@@ -29,66 +29,109 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- FUNCIONES ---
-def normalizar_texto(texto):
-    texto = texto.lower()
-    texto = unicodedata.normalize('NFKD', texto).encode('ascii', 'ignore').decode('utf-8')
-    return texto.strip()
+# --- FUNCTIONS ---
+def normalize_text(text):
+    text = text.lower()
+    return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8').strip()
 
-def contiene_palabra(texto, palabra):
-    texto_norm = normalizar_texto(texto)
-    palabra_norm = normalizar_texto(palabra)
-    return palabra_norm in texto_norm
+def contains_word(text, word):
+    return normalize_text(word) in normalize_text(text)
 
 # 🌐 Language selector
-idioma = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
-lang = "es" if idioma == "Español" else "en"
+language = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
+lang = "es" if language == "Español" else "en"
 
-# --- TEXTOS MULTILINGÜES ---
-TEXTOS = {
-    "titulo": {
-        "es": "✨ Bienvenida a *Wine & Music Explorer* 🍷🎶",
-        "en": "✨ Welcome to *Wine & Music Explorer* 🍷🎶"
+# --- MULTILINGUAL TEXTS ---
+T = {
+    "tabs_main": {
+        "es": ["🎧 Tu Mood Ideal", "🎼 Explorar canciones", "📈 Estadísticas Spotify", "🌍 Mapa mundial de vinos"],
+        "en": ["🎧 Your Ideal Mood", "🎼 Explore Songs", "📈 Spotify Stats", "🌍 Global Wine Map"]
+    },
+    "subtabs_mood": {
+        "es": ["🎧 Recomendaciones", "🚀 Interactivo"],
+        "en": ["🎧 Recommendations", "🚀 Interactive"]
+    },
+    "labels": {
+        "es": {
+            "mbti_select": "Selecciona tu tipo de personalidad MBTI:",
+            "song_rec": "🎵 Canciones recomendadas",
+            "wine_rec": "🍇 Vinos sugeridos",
+            "no_wines": "No se encontraron vinos.",
+            "energy": "Nivel de energía 🎧",
+            "happiness": "Nivel de felicidad 😊",
+            "danceability": "¿Qué tan bailable? 💃",
+            "no_songs": "No se encontraron canciones con esos parámetros.",
+            "ideal_wine": "🍷 Vino ideal:"
+        },
+        "en": {
+            "mbti_select": "Select your MBTI personality type:",
+            "song_rec": "🎵 Recommended songs",
+            "wine_rec": "🍇 Suggested wines",
+            "no_wines": "No wines found.",
+            "energy": "Energy level 🎧",
+            "happiness": "Happiness level 😊",
+            "danceability": "How danceable? 💃",
+            "no_songs": "No songs found with these settings.",
+            "ideal_wine": "🍷 Ideal wine:"
+        }
     },
     "intro": {
-        "es": "¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?",
-        "en": "Did you know your personality might have its own soundtrack and perfect wine?"
-    },
-    "detalle": {
-        "es": """
+        "title": {
+            "es": "✨ Bienvenida a *Wine & Music Explorer* 🍷🎶",
+            "en": "✨ Welcome to *Wine & Music Explorer* 🍷🎶"
+        },
+        "text": {
+            "es": """¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?
+
 Esta app interactiva está dividida en dos secciones principales:
 
-🔸 **Experiencia personalizada**: descubre qué vino y canción van contigo según tu tipo MBTI.  
-🔸 **Exploración de datos**: analiza tendencias musicales, explora canciones según filtros, y observa un mapa global del vino.
+🔸 **Experiencia personalizada**  
+🔸 **Exploración de datos**
 
-¡Descorcha, explora y disfruta! 🥂
-""",
-        "en": """
+¡Descorcha, explora y disfruta! 🥂""",
+            "en": """Did you know your personality might have its own soundtrack and perfect wine?
+
 This interactive app is divided into two main sections:
 
-🔸 **Personalized Experience**: find out which wine and song match your MBTI type.  
-🔸 **Data Exploration**: analyze musical trends, filter songs by mood, and explore a global wine map.
+🔸 **Personalized Experience**  
+🔸 **Data Exploration**
 
-Uncork, explore, and enjoy! 🥂
-"""
+Uncork, explore, and enjoy! 🥂"""
+        }
+    },
+    "songs_tab": {
+        "header": {
+            "es": "🎼 Explorar canciones por filtros",
+            "en": "🎼 Explore Songs by Filters"
+        },
+        "year": {"es": "Año de lanzamiento", "en": "Release Year"},
+        "streams": {"es": "Rango de streams", "en": "Streams Range"},
+        "sort": {"es": "Ordenar por", "en": "Sort by"},
+        "filtered": {"es": "🎵 Canciones filtradas", "en": "🎵 Filtered Songs"},
+        "download": {"es": "⬇️ Descargar CSV", "en": "⬇️ Download CSV"},
+        "artists": {"es": "🎤 Artistas más frecuentes", "en": "🎤 Most Frequent Artists"},
+        "energy_valence": {"es": "🎵 Energía vs Felicidad", "en": "🎵 Energy vs Happiness"},
+        "no_data": {"es": "No hay suficientes datos limpios para mostrar estadísticas.", "en": "Not enough clean data to display statistics."}
+    },
+    "spotify_stats": {
+        "header": {"es": "📈 Estadísticas generales de Spotify", "en": "📈 General Spotify Statistics"},
+        "bpm": {"es": "🎶 Distribución de BPM", "en": "🎶 BPM Distribution"},
+        "energy_dance": {"es": "📊 Relación entre energía y bailabilidad", "en": "📊 Energy vs Danceability"},
+        "top": {"es": "🎧 Canciones más populares por número de streams", "en": "🎧 Most Popular Songs by Streams"},
+        "source": {
+            "es": "Fuente: Base de datos de Spotify 2023. Valores limpiados para visualización.",
+            "en": "Source: Spotify 2023 dataset. Values cleaned for visualization."
+        }
+    },
+    "wine_map": {
+        "header": {"es": "🌍 Mapa mundial de vinos por puntuación", "en": "🌍 Global Wine Map by Score"},
+        "no_data": {"es": "No hay datos suficientes para generar el mapa.", "en": "Not enough data to generate the map."}
     }
 }
 
-# --- INTRODUCCIÓN DINÁMICA ---
-st.markdown(f"### {TEXTOS['titulo'][lang]}")
-st.write(TEXTOS["intro"][lang])
-st.markdown(TEXTOS["detalle"][lang])
-# --- MBTI + Wine ---
-mbti_profiles = {
-    "INFP": {"description": "Dreamy, sensitive, introspective", "wine": "Pinot Noir", "color": "#e6ccff"},
-    "ENFP": {"description": "Spontaneous, creative, outgoing", "wine": "Sauvignon Blanc", "color": "#ffe680"},
-    "INTJ": {"description": "Analytical, reserved, strategic", "wine": "Cabernet Sauvignon", "color": "#c2f0c2"},
-    "ISFJ": {"description": "Warm, protective, loyal", "wine": "Merlot", "color": "#f0d9b5"},
-    "ENTP": {"description": "Innovative, talkative, curious", "wine": "Rosé", "color": "#ffcce6"},
-    "ESFP": {"description": "Cheerful, impulsive, energetic", "wine": "Sparkling", "color": "#ffcccc"},
-    "INFJ": {"description": "Visionary, intuitive, deep", "wine": "Syrah", "color": "#d9d2e9"},
-    "ISTJ": {"description": "Traditional, methodical, practical", "wine": "Malbec", "color": "#d9ead3"}
-}
+# --- INTRO ---
+st.markdown(f"### {T['intro']['title'][lang]}")
+st.write(T['intro']['text'][lang])
 
 # --- LOAD DATA ---
 spotify_df = pd.read_csv("spotify-2023.csv", encoding="latin1")
@@ -97,183 +140,82 @@ wine_df.columns = wine_df.columns.str.strip()
 wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
 spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
 
-# 🧩 MAIN TABS
-main_tabs = st.tabs(["🎧 Your Ideal Mood", "🎼 Explore Songs", "📈 Spotify Stats", "🌍 Global Wine Map"])
+# --- MAIN TABS ---
+tabs = st.tabs(T["tabs_main"][lang])
 
-# === 🎧 MINI-TABS INSIDE “Your Ideal Mood” ===
-with main_tabs[0]:
-    subtabs = st.tabs(["🎧 Recommendations", "🚀 Interactive"])
+# 🎧 Your Ideal Mood
+with tabs[0]:
+    subt = st.tabs(T["subtabs_mood"][lang])
 
-    # --- Subtab: MBTI Recommendations ---
-    with subtabs[0]:
-        st.header("🎧 Your Personalized Recommendations")
-        mbti_type = st.selectbox("Select your MBTI personality type:", list(mbti_profiles.keys()), key="mbti1")
-        profile = mbti_profiles[mbti_type]
+    # Recommendations
+    with subt[0]:
+        st.header(T["labels"][lang]["song_rec"])
+        mbti = st.selectbox(T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti1")
+        profile = mbti_profiles[mbti]
         wine = profile["wine"]
-
-        st.markdown(f"""
-        <div style='background-color:{profile["color"]}; padding:15px; border-radius:10px'>
-            <h2>{mbti_type} — {profile["description"]}</h2>
-            <h4>🍷 Suggested Wine: <i>{wine}</i></h4>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.subheader("🎵 Recommended Songs")
-        songs = spotify_df[(spotify_df["valence_%"] >= 50) & (spotify_df["energy_%"] >= 50)].sample(3)
-        for _, row in songs.iterrows():
-            st.markdown(f"- **{row['track_name']}** — *{row['artist(s)_name']}*")
-
-        st.subheader("🍇 Suggested Wines")
-        filtered_wines = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
-        if filtered_wines.empty:
-            st.warning("No wines found.")
+        st.markdown(f"<div style='background:{profile['color']};padding:10px;border-radius:8px'><h2>{mbti} — {profile['description']}</h2><h4>{T['labels'][lang]['ideal_wine']} <i>{wine}</i></h4></div>", unsafe_allow_html=True)
+        songs = spotify_df[(spotify_df["valence_%"] >= 50)&(spotify_df["energy_%"] >= 50)].sample(3)
+        for _, r in songs.iterrows():
+            st.markdown(f"- **{r['track_name']}** — *{r['artist(s)_name']}*")
+        st.subheader(T["labels"][lang]["wine_rec"])
+        fw = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
+        if fw.empty:
+            st.warning(T["labels"][lang]["no_wines"])
         else:
-            for _, row in filtered_wines.head(3).iterrows():
-                title = row.get("title", "Wine")
-                points = row.get("points", "N/A")
-                country = row.get("country", "Unknown Country")
-                description = row.get("description", "No description.")
-                st.markdown(f"**{title}** — ⭐ {points} points — {country}")
-                st.caption(f"*{description}*")
-                st.markdown("---")
+            for _, r in fw.head(3).iterrows():
+                st.markdown(f"**{r.get('title','Wine')}** — ⭐ {r.get('points','N/A')} — {r.get('country','Unknown')}")
+                st.caption(f"*{r.get('description','No description.')}*")
 
-    # --- Subtab: Interactive Mood ---
-    with subtabs[1]:
-        st.header("🚀 Explore your musical & wine mood")
-        mbti_type = st.selectbox("1️⃣ What's your MBTI personality type?", list(mbti_profiles.keys()), key="mbti2")
-        profile = mbti_profiles[mbti_type]
-        wine = profile["wine"]
-
-        st.subheader("2️⃣ Adjust your musical mood 🎚️")
-        energy = st.slider("Energy Level 🎧", 0, 100, (50, 100))
-        valence = st.slider("Happiness Level 😊", 0, 100, (50, 100))
-        danceability = st.slider("How danceable? 💃", 0, 100, (50, 100))
-
-        filtered = spotify_df[
-            (spotify_df['valence_%'].between(valence[0], valence[1])) &
-            (spotify_df['energy_%'].between(energy[0], energy[1])) &
-            (spotify_df['danceability_%'].between(danceability[0], danceability[1]))
-        ]
-
-        if not filtered.empty:
-            result = filtered.sample(1).iloc[0]
-            st.markdown(f"🎶 **{result['track_name']}** — *{result['artist(s)_name']}*")
+    # Interactive
+    with subt[1]:
+        st.header(T["subtabs_mood"][lang][1])
+        mbti = st.selectbox(T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti2")
+        perfil = mbti_profiles[mbti]
+        wine = perfil["wine"]
+        st.subheader(T["subtabs_mood"][lang][1])
+        energy = st.slider(T["labels"][lang]["energy"], 0, 100, (50,100))
+        happiness = st.slider(T["labels"][lang]["happiness"], 0, 100, (50,100))
+        dance = st.slider(T["labels"][lang]["danceability"], 0, 100, (50,100))
+        dfm = spotify_df[spotify_df["valence_%"].between(happiness[0],happiness[1]) & spotify_df["energy_%"].between(energy[0],energy[1]) & spotify_df["danceability_%"].between(dance[0],dance[1])]
+        if not dfm.empty:
+            r = dfm.sample(1).iloc[0]
+            st.markdown(f"🎶 **{r['track_name']}** — *{r['artist(s)_name']}*")
         else:
-            st.warning("No songs found with these parameters.")
+            st.warning(T["labels"][lang]["no_songs"])
+        st.markdown(f"{T['labels'][lang]['ideal_wine']} **{wine}**")
 
-        st.markdown(f"🍷 **Ideal Wine:** {wine}")
-
-# 🎼 PART 3: Song Explorer
-with main_tabs[1]:
-    st.header("🎼 Explore Songs by Filters")
-
-    spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
-
-    if not spotify_clean.empty:
-        year = st.selectbox("Release Year", sorted(spotify_clean["released_year"].unique()))
-
-        max_streams_val = spotify_clean["streams"].max()
-        max_streams = int(max_streams_val) if pd.notna(max_streams_val) else 50_000_000
-
-        min_s, max_s = st.slider("Streams Range", 0, max_streams, (1_000_000, 10_000_000), step=500_000)
-        sort_by = st.selectbox("Sort by", ["streams", "valence_%", "energy_%", "danceability_%"])
-
-        filtered = spotify_clean[
-            (spotify_clean["released_year"] == year) &
-            (spotify_clean["streams"] >= min_s) &
-            (spotify_clean["streams"] <= max_s)
-        ].sort_values(sort_by, ascending=False).head(20)
-
-        st.subheader("🎵 Filtered Songs")
-        st.dataframe(filtered[["track_name", "artist(s)_name", "streams"]])
-        st.download_button("⬇️ Download CSV", filtered.to_csv(index=False), "filtered_songs.csv")
-
-        st.subheader("🎤 Most Frequent Artists")
-        top_artists = spotify_df["artist(s)_name"].value_counts().head(10)
-        fig = px.bar(
-            x=top_artists.index,
-            y=top_artists.values,
-            labels={"x": "Artist", "y": "Number of Songs"},
-            title="Top 10 Most Frequent Artists"
-        )
-        st.plotly_chart(fig)
-
-        st.subheader("🎵 Energy vs Happiness")
-        fig2 = px.scatter(
-            spotify_clean.sample(300),
-            x="valence_%", y="energy_%",
-            hover_data=["track_name", "artist(s)_name"],
-            color="energy_%"
-        )
-        st.plotly_chart(fig2)
+# 🎼 Explore Songs
+with tabs[1]:
+    st.header(T["songs_tab"]["header"][lang])
+    sdf = spotify_df.dropna(subset=["streams","released_year"])
+    if not sdf.empty:
+        year = st.selectbox(T["songs_tab"]["year"][lang], sorted(sdf["released_year"].unique()))
+        ms = int(sdf["streams"].max())
+        mn, mx = st.slider(T["songs_tab"]["streams"][lang], 0, ms, (1_000_000, min(ms,10_000_000)), step=500_000)
+        sb = st.selectbox(T["songs_tab"]["sort"][lang], ["streams","valence_%","energy_%","danceability_%"])
+        filt = sdf[(sdf["released_year"]==year)&(sdf["streams"].between(mn,mx))].sort_values(sb, ascending=False).head(20)
+        st.subheader(T["songs_tab"]["filtered"][lang]); st.dataframe(filt[["track_name","artist(s)_name","streams"]]); st.download_button(T["songs_tab"]["download"][lang], filt.to_csv(index=False), "songs.csv")
+        st.subheader(T["songs_tab"]["artists"][lang]); fig=px.bar(x=sdf["artist(s)_name"].value_counts().head(10).index,y=sdf["artist(s)_name"].value_counts().head(10).values,labels={"x":"Artist","y":"Count"},title=T["songs_tab"]["artists"][lang]); st.plotly_chart(fig)
+        st.subheader(T["songs_tab"]["energy_valence"][lang]); fig2=px.scatter(sdf.sample(300),x="valence_%",y="energy_%",hover_data=["track_name","artist(s)_name"],color="energy_%"); st.plotly_chart(fig2)
     else:
-        st.warning("Not enough clean data to display statistics.")
+        st.warning(T["songs_tab"]["no_data"][lang])
 
-# 📈 PART 4: Spotify Stats
-with main_tabs[2]:
-    st.header("📈 General Spotify Statistics")
+# 📈 Spotify Stats
+with tabs[2]:
+    st.header(T["spotify_stats"]["header"][lang])
+    st.subheader(T["spotify_stats"]["bpm"][lang]); figb=px.histogram(spotify_df,x="bpm",nbins=30,title=T["spotify_stats"]["bpm"][lang],labels={"bpm":"BPM"}); st.plotly_chart(figb)
+    st.subheader(T["spotify_stats"]["energy_dance"][lang]); figd=px.scatter(spotify_df.sample(300),x="energy_%",y="danceability_%",color="valence_%",hover_data=["track_name","artist(s)_name"]); st.plotly_chart(figd)
+    st.subheader(T["spotify_stats"]["top"][lang]); fst=spotify_df.sort_values("streams",ascending=False).head(10); figt=px.bar(fst,x="track_name",y="streams",color="artist(s)_name",title=T["spotify_stats"]["top"][lang]); st.plotly_chart(figt)
+    st.caption(T["spotify_stats"]["source"][lang])
 
-    st.subheader("🎶 BPM Distribution")
-    fig_bpm = px.histogram(
-        spotify_df, 
-        x="bpm", 
-        nbins=30, 
-        title="BPM (Beats Per Minute) Distribution", 
-        labels={"bpm": "Beats Per Minute"}
-    )
-    st.plotly_chart(fig_bpm)
-
-    st.subheader("📊 Energy vs Danceability")
-    fig_energy_dance = px.scatter(
-        spotify_df.sample(300),
-        x="energy_%",
-        y="danceability_%",
-        color="valence_%",
-        hover_data=["track_name", "artist(s)_name"],
-        title="Energy vs Danceability"
-    )
-    st.plotly_chart(fig_energy_dance)
-
-    st.subheader("🎧 Most Popular Songs by Streams")
-    top_streams = spotify_df.sort_values("streams", ascending=False).head(10)
-    fig_top = px.bar(
-        top_streams,
-        x="track_name",
-        y="streams",
-        color="artist(s)_name",
-        title="Top 10 Most Streamed Songs",
-        labels={"track_name": "Song", "streams": "Streams"}
-    )
-    st.plotly_chart(fig_top)
-
-    st.caption("Source: Spotify 2023 dataset. Values cleaned for this visualization.")
-
-# 🌍 PART 5: Global Wine Map
-with main_tabs[3]:
-    st.header("🌍 Global Wine Map by Score")
-
-    wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
-    wine_df["country"] = wine_df["country"].fillna("Unknown")
-
-    map_df = wine_df.dropna(subset=["points", "country"])
-    map_df = map_df.groupby("country", as_index=False).agg(
-        avg_points=("points", "mean"),
-        wine_count=("points", "count")
-    )
-
-    if not map_df.empty:
-        fig = px.choropleth(
-            map_df,
-            locations="country",
-            locationmode="country names",
-            color="avg_points",
-            hover_name="country",
-            hover_data=["avg_points", "wine_count"],
-            color_continuous_scale="YlOrRd",
-            title="🌎 Average Wine Score by Country"
-        )
-        fig.update_geos(showcoastlines=True, projection_type="natural earth")
-        fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
-        st.plotly_chart(fig, use_container_width=True)
+# 🌍 Global Wine Map
+with tabs[3]:
+    st.header(T["wine_map"]["header"][lang])
+    wine_df["points"]=pd.to_numeric(wine_df["points"],errors="coerce")
+    wine_df["country"]=wine_df["country"].fillna("Unknown")
+    md=wine_df.dropna(subset=["points","country"]).groupby("country",as_index=False).agg(avg_points=("points","mean"),count=("points","count"))
+    if not md.empty:
+        figm=px.choropleth(md,locations="country",locationmode="country names",color="avg_points",hover_name="country",hover_data=["avg_points","count"],color_continuous_scale="YlOrRd",title=T["wine_map"]["header"][lang])
+        figm.update_geos(showcoastlines=True,projection_type="natural earth"); st.plotly_chart(figm,use_container_width=True)
     else:
-        st.warning("Not enough data to generate the map.")
+        st.warning(T["wine_map"]["no_data"][lang])
