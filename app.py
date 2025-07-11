@@ -162,3 +162,36 @@ with tabs[4]:
     ax.hist(energia, bins=20, color="#ff7043", edgecolor="white")
     ax.set_title("Distribución de energía")
     st.pyplot(fig)
+# Análisis interactivo de canciones
+st.markdown("## 📊 Análisis de canciones populares en Spotify")
+
+# Eliminar valores nulos en columnas clave
+spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
+
+# Filtrar por cantidad de streams
+min_streams = 1_000_000
+max_streams = int(spotify_clean["streams"].dropna().max())
+
+rango_streams = st.slider("🎧 Filtrar por streams", min_value=min_streams, max_value=max_streams, value=(min_streams, 50_000_000), step=1_000_000)
+filtrado = spotify_clean[spotify_clean["streams"].between(rango_streams[0], rango_streams[1])]
+
+# Gráfico de barras: Total de streams por año
+if not filtrado.empty:
+    resumen_por_año = filtrado.groupby("released_year")["streams"].sum().reset_index()
+    fig_bar = px.bar(resumen_por_año, x="released_year", y="streams", title="📅 Streams por año de lanzamiento", labels={"streams": "Reproducciones", "released_year": "Año"})
+    st.plotly_chart(fig_bar, use_container_width=True)
+
+    # Gráfico de dispersión: streams vs energía
+    fig_scatter = px.scatter(
+        filtrado,
+        x="energy_%",
+        y="streams",
+        size="valence_%",
+        color="released_year",
+        hover_data=["track_name", "artist(s)_name"],
+        title="⚡ Energía vs Streams (tamaño: valence)",
+        labels={"energy_%": "Energía", "streams": "Reproducciones"}
+    )
+    st.plotly_chart(fig_scatter, use_container_width=True)
+else:
+    st.warning("No se encontraron canciones con ese rango de streams.")
