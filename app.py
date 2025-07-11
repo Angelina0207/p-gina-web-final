@@ -1,95 +1,93 @@
-#✅ 1. CONFIGURACIÓN INICIAL
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import unicodedata
 
-# --- ESTILO PERSONALIZADO ---
-st.markdown("""
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-    html, body, [class*="css"] {
-        font-family: 'Fredoka', sans-serif;
-        background-color: #fffaf3;
-        color: #333333;
-    }
-    h1, h2, h3 {
-        color: #ff7043;
-        font-weight: 600;
-    }
-    .stButton>button {
-        background-color: #ffa07a;
-        color: white;
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-weight: bold;
-        border: none;
-    }
-    </style>
-""", unsafe_allow_html=True)
+st.set_page_config("MBTI x Música x Vino", layout="wide")
 
-# --- FUNCIONES ---
-def normalizar_texto(texto):
-    texto = texto.lower()
-    texto = unicodedata.normalize('NFKD', texto).encode('ascii', 'ignore').decode('utf-8')
-    return texto.strip()
-
-def contiene_palabra(texto, palabra):
-    texto_norm = normalizar_texto(texto)
-    palabra_norm = normalizar_texto(palabra)
-    return palabra_norm in texto_norm
-
-# --- SELECTOR DE IDIOMA Y DICCIONARIO ---
-idioma_opcion = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
-idioma = "es" if idioma_opcion == "Español" else "en"
-
+# --- TRADUCCIONES ---
 textos = {
-    "es": {
+    "Español": {
+        "titulo": "Bienvenida a *Wine & Music Explorer* 🍷🎶",
+        "intro": "¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?",
+        "secciones": [
+            "🎧 Tu Mood Ideal",
+            "🎼 Explorar canciones",
+            "📈 Estadísticas Spotify",
+            "🌍 Mapa mundial de vinos"
+        ],
+        "mbti": "Selecciona tu tipo de personalidad MBTI:",
         "recomendaciones": "🎧 Tus recomendaciones personalizadas",
-        "interactivo": "🚀 Modo Interactivo",
-        "explorador": "🎼 Explorar canciones por filtros",
-        "estadisticas": "📈 Estadísticas Spotify",
-        "vino_sugerido": "🍷 Vino sugerido",
         "canciones_recomendadas": "🎵 Canciones recomendadas",
-        "vinos_sugeridos": "🍇 Vinos sugeridos",
+        "vinos_recomendados": "🍇 Vinos sugeridos",
         "no_vinos": "No se encontraron vinos.",
-        "selecciona_tipo": "Selecciona tu tipo de personalidad MBTI:",
-        "filtrar_streams": "🎧 Filtrar por número de streams",
-        "artistas_top": "🎤 Artistas más frecuentes",
-        "energia_vs_felicidad": "🎵 Energía vs Felicidad",
-        "descargar_csv": "⬇️ Descargar CSV",
+        "explora_mood": "🚀 Explora tu mood musical y vinícola",
+        "pregunta_mbti": "1️⃣ ¿Cuál es tu tipo de personalidad MBTI?",
+        "ajusta_mood": "2️⃣ Ajusta tu mood musical 🎚️",
+        "energia": "Nivel de energía 🎧",
+        "valence": "Nivel de felicidad 😊",
+        "bailabilidad": "¿Qué tan bailable? 💃",
+        "sin_resultados": "No se encontraron canciones con esos parámetros.",
+        "vino_ideal": "🍷 Vino ideal:",
+        "explorar_canciones": "🎼 Explorar canciones por filtros",
         "anio": "Año de lanzamiento",
-        "ordenar_por": "Ordenar por",
         "rango_streams": "Rango de streams",
-        "no_datos": "No hay datos disponibles para mostrar.",
-        "agradecimiento": "Gracias por explorar esta fusión única de música y vino basada en tu personalidad MBTI. ¡Salud y buena vibra! 🍷🎶",
-        "nombre_app": "Música y Vino según tu MBTI",
-        "mapa_vinos": "🌍 Mapa mundial de vinos por puntuación",
-        "mapa_nota": "Basado en la base de datos limitada. La visualización busca resaltar países con mejor reputación vinícola."
+        "ordenar": "Ordenar por",
+        "canciones_filtradas": "🎵 Canciones filtradas",
+        "descargar": "⬇️ Descargar CSV",
+        "artistas_frecuentes": "🎤 Artistas más frecuentes",
+        "energia_vs_felicidad": "🎵 Energía vs Felicidad",
+        "sin_datos": "No hay suficientes datos limpios para mostrar estadísticas.",
+        "estadisticas": "📈 Estadísticas generales de Spotify",
+        "bpm": "🎶 Distribución de BPM",
+        "bpm_titulo": "Distribución de BPM (ritmo)",
+        "energia_vs_baila": "📊 Relación entre energía y bailabilidad",
+        "top_streams": "🎧 Canciones más populares por número de streams",
+        "top10": "Top 10 canciones con más streams",
+        "fuente": "Fuente: Base de datos de Spotify 2023. Los valores se han limpiado para esta visualización.",
+        "mapa": "🌍 Mapa mundial de vinos por puntuación",
+        "no_mapa": "No hay datos suficientes para generar el mapa."
     },
-    "en": {
-        "recomendaciones": "🎧 Your personalized recommendations",
-        "interactivo": "🚀 Interactive Mode",
-        "explorador": "🎼 Explore songs by filters",
-        "estadisticas": "📈 Spotify Statistics",
-        "vino_sugerido": "🍷 Suggested wine",
-        "canciones_recomendadas": "🎵 Recommended songs",
-        "vinos_sugeridos": "🍇 Suggested wines",
-        "no_vinos": "No matching wines found.",
-        "selecciona_tipo": "Select your MBTI personality type:",
-        "filtrar_streams": "🎧 Filter by number of streams",
-        "artistas_top": "🎤 Most frequent artists",
-        "energia_vs_felicidad": "🎵 Energy vs Happiness",
-        "descargar_csv": "⬇️ Download CSV",
+    "English": {
+        "titulo": "Welcome to *Wine & Music Explorer* 🍷🎶",
+        "intro": "Did you know your personality might have its own soundtrack and perfect wine?",
+        "secciones": [
+            "🎧 Your Ideal Mood",
+            "🎼 Explore Songs",
+            "📈 Spotify Statistics",
+            "🌍 Global Wine Map"
+        ],
+        "mbti": "Select your MBTI personality type:",
+        "recomendaciones": "🎧 Your Personalized Recommendations",
+        "canciones_recomendadas": "🎵 Recommended Songs",
+        "vinos_recomendados": "🍇 Suggested Wines",
+        "no_vinos": "No wines found.",
+        "explora_mood": "🚀 Explore your musical and wine mood",
+        "pregunta_mbti": "1️⃣ What is your MBTI personality type?",
+        "ajusta_mood": "2️⃣ Adjust your musical mood 🎚️",
+        "energia": "Energy level 🎧",
+        "valence": "Happiness level 😊",
+        "bailabilidad": "How danceable? 💃",
+        "sin_resultados": "No songs found with those parameters.",
+        "vino_ideal": "🍷 Ideal wine:",
+        "explorar_canciones": "🎼 Explore songs by filters",
         "anio": "Release year",
-        "ordenar_por": "Sort by",
         "rango_streams": "Streams range",
-        "no_datos": "No data available to display.",
-        "agradecimiento": "Thank you for exploring this unique fusion of music and wine based on your MBTI personality. Cheers and good vibes! 🍷🎶",
-        "nombre_app": "Wine & Music by MBTI",
-        "mapa_vinos": "🌍 World Wine Map by Rating",
-        "mapa_nota": "Based on a limited dataset. The visualization aims to highlight countries with strong wine reputations."
+        "ordenar": "Sort by",
+        "canciones_filtradas": "🎵 Filtered songs",
+        "descargar": "⬇️ Download CSV",
+        "artistas_frecuentes": "🎤 Most frequent artists",
+        "energia_vs_felicidad": "🎵 Energy vs Happiness",
+        "sin_datos": "Not enough clean data to show statistics.",
+        "estadisticas": "📈 General Spotify Statistics",
+        "bpm": "🎶 BPM Distribution",
+        "bpm_titulo": "BPM (Beats Per Minute) Distribution",
+        "energia_vs_baila": "📊 Energy vs Danceability",
+        "top_streams": "🎧 Most popular songs by streams",
+        "top10": "Top 10 most streamed songs",
+        "fuente": "Source: Spotify 2023 database. Values have been cleaned for visualization.",
+        "mapa": "🌍 Global wine score map",
+        "no_mapa": "Not enough data to generate the map."
     }
 }
 
