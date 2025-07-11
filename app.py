@@ -29,46 +29,55 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- FUNCTIONS ---
-def normalize_text(text):
-    text = text.lower()
-    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
-    return text.strip()
+# --- FUNCIONES ---
+def normalizar_texto(texto):
+    texto = texto.lower()
+    texto = unicodedata.normalize('NFKD', texto).encode('ascii', 'ignore').decode('utf-8')
+    return texto.strip()
 
-def contains_word(text, word):
-    text_norm = normalize_text(text)
-    word_norm = normalize_text(word)
-    return word_norm in text_norm
+def contiene_palabra(texto, palabra):
+    texto_norm = normalizar_texto(texto)
+    palabra_norm = normalizar_texto(palabra)
+    return palabra_norm in texto_norm
 
-# 🌐 Language Selector
-language = st.selectbox("🌐 Choose language / Elige idioma:", ["English", "Español"])
+# 🌐 Language selector
+idioma = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
+lang = "es" if idioma == "Español" else "en"
 
-# 💬 Introduction based on language
-if language == "English":
-    st.markdown("""
-    ### ✨ Welcome to *Wine & Music Explorer* 🍷🎶  
-    Did you know your personality might have its own soundtrack and perfect wine?
+# --- TEXTOS MULTILINGÜES ---
+TEXTOS = {
+    "titulo": {
+        "es": "✨ Bienvenida a *Wine & Music Explorer* 🍷🎶",
+        "en": "✨ Welcome to *Wine & Music Explorer* 🍷🎶"
+    },
+    "intro": {
+        "es": "¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?",
+        "en": "Did you know your personality might have its own soundtrack and perfect wine?"
+    },
+    "detalle": {
+        "es": """
+Esta app interactiva está dividida en dos secciones principales:
 
-    This interactive app is divided into two main sections:
+🔸 **Experiencia personalizada**: descubre qué vino y canción van contigo según tu tipo MBTI.  
+🔸 **Exploración de datos**: analiza tendencias musicales, explora canciones según filtros, y observa un mapa global del vino.
 
-    🔸 **Personalized Experience**: discover which wine and song match your MBTI type.  
-    🔸 **Data Exploration**: analyze musical trends, filter songs, and explore a global wine map.
+¡Descorcha, explora y disfruta! 🥂
+""",
+        "en": """
+This interactive app is divided into two main sections:
 
-    Uncork, explore, and enjoy! 🥂
-    """)
-else:
-    st.markdown("""
-    ### ✨ Bienvenida a *Wine & Music Explorer* 🍷🎶  
-    ¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?
+🔸 **Personalized Experience**: find out which wine and song match your MBTI type.  
+🔸 **Data Exploration**: analyze musical trends, filter songs by mood, and explore a global wine map.
 
-    Esta app interactiva está dividida en dos secciones principales:
+Uncork, explore, and enjoy! 🥂
+"""
+    }
+}
 
-    🔸 **Experiencia personalizada**: descubre qué vino y canción van contigo según tu tipo MBTI.  
-    🔸 **Exploración de datos**: analiza tendencias musicales, explora canciones según filtros, y observa un mapa global del vino.
-
-    ¡Descorcha, explora y disfruta! 🥂
-    """)
-
+# --- INTRODUCCIÓN DINÁMICA ---
+st.markdown(f"### {TEXTOS['titulo'][lang]}")
+st.write(TEXTOS["intro"][lang])
+st.markdown(TEXTOS["detalle"][lang])
 # --- MBTI + Wine ---
 mbti_profiles = {
     "INFP": {"description": "Dreamy, sensitive, introspective", "wine": "Pinot Noir", "color": "#e6ccff"},
