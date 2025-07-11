@@ -140,9 +140,6 @@ wine_df.columns = wine_df.columns.str.strip()
 wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
 spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
 
-# --- MAIN TABS ---
-tabs = st.tabs(T["tabs_main"][lang])
-
 # 💡 Asegúrate de tener esta variable antes de este bloque:
 # lang = "es" if language == "Español" else "en"
 
