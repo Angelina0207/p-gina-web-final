@@ -91,7 +91,56 @@ with tabs[1]:
             descripcion = vino_row.get("description", "Sin descripción.")
             st.markdown(f"**🍷 {nombre}**  \n⭐ {puntos} puntos — 🌍 {pais}  \n📝 *{descripcion}*")
             st.markdown("---")
+#datosd de canciones:
+with tabs[2]:
+    st.header("🎼 Explorar canciones por datos")
 
+    st.subheader("📅 Filtros de búsqueda")
+    año = st.selectbox("Selecciona un año de lanzamiento", sorted(spotify_df["released_year"].dropna().unique()))
+    min_streams, max_streams = st.slider("Filtrar por streams", 0, int(spotify_df["streams"].max()), (1_000_000, 50_000_000), step=1_000_000)
+
+    orden = st.selectbox("Ordenar resultados por:", ["streams", "valence_%", "energy_%", "danceability_%"])
+
+    filtrado = spotify_df[
+        (spotify_df["released_year"] == año) &
+        (spotify_df["streams"] >= min_streams) &
+        (spotify_df["streams"] <= max_streams)
+    ].sort_values(orden, ascending=False).head(20)
+
+    st.subheader("🎧 Canciones encontradas:")
+    st.dataframe(filtrado[["track_name", "artist(s)_name", "streams", "valence_%", "energy_%"]])
+
+    st.download_button(
+        label="⬇️ Descargar CSV filtrado",
+        data=filtrado.to_csv(index=False),
+        file_name="canciones_filtradas.csv",
+        mime="text/csv"
+    )
+
+    st.markdown("---")
+    st.subheader("📊 Artistas con más canciones en el top")
+    top_artistas = spotify_df["artist(s)_name"].value_counts().head(10)
+    fig1 = px.bar(
+        x=top_artistas.index,
+        y=top_artistas.values,
+        labels={'x': 'Artista', 'y': 'Número de canciones'},
+        color=top_artistas.values,
+        title="Top 10 artistas más repetidos",
+        color_continuous_scale="tealrose"
+    )
+    st.plotly_chart(fig1, use_container_width=True)
+
+    st.subheader("🎵 Energía vs Felicidad (valence)")
+    fig2 = px.scatter(
+        spotify_df.dropna(subset=["energy_%", "valence_%"]).sample(300),
+        x="valence_%",
+        y="energy_%",
+        hover_data=["track_name", "artist(s)_name"],
+        color="energy_%",
+        color_continuous_scale="sunset",
+        title="Canciones por felicidad y energía"
+    )
+    st.plotly_chart(fig2, use_container_width=True)
 #🔹 BLOQUE 3/3 — Buscador + Estadísticas + Pie final
 # TAB 3: BUSCADOR
 with tabs[2]:
