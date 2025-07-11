@@ -81,10 +81,21 @@ with tabs[1]:
         st.warning("No se encontraron vinos.")
     else:
         for _, row in vinos_filtrados.head(3).iterrows():
-            st.markdown(f"**{row.get('title', 'Vino')}** — ⭐ {row['points']} puntos — {row.get('country', 'País desconocido')}")
+            # Obtener título adecuado
+            if pd.notna(row.get('title')) and row['title'].strip() != "":
+                titulo = row['title']
+            elif pd.notna(row.get('designation')) and row['designation'].strip() != "":
+                titulo = row['designation']
+            elif pd.notna(row.get('variety')) and row['variety'].strip() != "":
+                titulo = row['variety']
+            elif pd.notna(row.get('winery')) and row['winery'].strip() != "":
+                titulo = row['winery']
+            else:
+                titulo = "Vino sin nombre 🍷"
+
+            st.markdown(f"**{titulo}** — ⭐ {row['points']} puntos — {row.get('country', 'País desconocido')}")
             st.caption(f"*{row.get('description', 'Sin descripción.')}*")
             st.markdown("---")
-
 #📌 Parte 3: Explorador musical interactivo
 with tabs[2]:
     st.header("🎼 Explorar canciones por filtros")
