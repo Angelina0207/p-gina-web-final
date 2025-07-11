@@ -246,35 +246,6 @@ with main_tabs[2]:
 #🌍 PARTE 5: Mapa mundial de vinos
 with main_tabs[3]:
     st.header("🌍 Mapa mundial de vinos por puntuación")
-
-    wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
-    wine_df["country"] = wine_df["country"].fillna("Desconocido")
-
-    mapa_df = wine_df.dropna(subset=["points", "country"])
-    mapa_df = mapa_df.groupby("country", as_index=False).agg(
-        promedio_puntos=("points", "mean"),
-        cantidad_vinos=("points", "count")
-    )
-
-    if not mapa_df.empty:
-        fig = px.choropleth(
-            mapa_df,
-            locations="country",
-            locationmode="country names",
-            color="promedio_puntos",
-            hover_name="country",
-            hover_data=["promedio_puntos", "cantidad_vinos"],
-            color_continuous_scale="YlOrRd",
-            title="🌎 Puntuación promedio de vinos por país"
-        )
-        fig.update_geos(showcoastlines=True, projection_type="natural earth")
-        fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
-        st.plotly_chart(fig, use_container_width=True)
-    else:
-        st.warning("No hay datos suficientes para generar el mapa.")
-
-# 📌 Parte 4: Mapa mundial de vinos
-with st.tabs(["🌍 Mapa mundial de vinos"])[0]:
     st.header("🌍 Mapa mundial de vinos por puntuación promedio")
 
     # Asegurar que 'points' es numérica
