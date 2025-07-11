@@ -40,6 +40,31 @@ def contiene_palabra(texto, palabra):
     palabra_norm = normalizar_texto(palabra)
     return palabra_norm in texto_norm
 
+# --- INTRODUCCIÓN ---
+st.markdown("""
+### ✨ Bienvenida a *Wine & Music Explorer* 🍷🎶  
+¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?
+
+Esta app interactiva está dividida en dos secciones principales:
+
+🔸 **Experiencia personalizada**: descubre qué vino y canción van contigo según tu tipo MBTI.  
+🔸 **Exploración de datos**: analiza tendencias musicales, explora canciones según filtros, y observa un mapa global del vino.
+
+¡Descorcha, explora y disfruta! 🥂
+
+---
+
+### ✨ Welcome to *Wine & Music Explorer* 🍷🎶  
+Did you know your personality might have its own soundtrack and perfect wine?
+
+This interactive app is divided into two main sections:
+
+🔸 **Personalized Experience**: find out which wine and song match your MBTI type.  
+🔸 **Data Exploration**: analyze musical trends, filter songs by mood, and explore a global wine map.
+
+Uncork, explore, and enjoy! 🥂
+""", unsafe_allow_html=True)
+
 # --- MBTI + vino ---
 mbti_perfiles = {
     "INFP": {"descripcion": "Soñador, sensible, introspectivo", "vino": "Pinot Noir", "color": "#e6ccff"},
