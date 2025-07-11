@@ -5,8 +5,40 @@ import pandas as pd
 import plotly.express as px
 import unicodedata
 
-# --- CONFIGURACIÓN DE LA APP ---
-st.set_page_config("MBTI x Música x Vino", layout="wide")
+# --- ESTILO PERSONALIZADO ---
+st.markdown("""
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+    html, body, [class*="css"] {
+        font-family: 'Fredoka', sans-serif;
+        background-color: #fffaf3;
+        color: #333333;
+    }
+    h1, h2, h3 {
+        color: #ff7043;
+        font-weight: 600;
+    }
+    .stButton>button {
+        background-color: #ffa07a;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: bold;
+        border: none;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- FUNCIONES ---
+def normalizar_texto(texto):
+    texto = texto.lower()
+    texto = unicodedata.normalize('NFKD', texto).encode('ascii', 'ignore').decode('utf-8')
+    return texto.strip()
+
+def contiene_palabra(texto, palabra):
+    texto_norm = normalizar_texto(texto)
+    palabra_norm = normalizar_texto(palabra)
+    return palabra_norm in texto_norm
 
 # --- SELECTOR DE IDIOMA Y DICCIONARIO ---
 idioma_opcion = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
