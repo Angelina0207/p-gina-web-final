@@ -9,10 +9,11 @@ import unicodedata
 st.set_page_config("MBTI x Música x Vino", layout="wide")
 
 # --- SELECTOR DE IDIOMA Y DICCIONARIO ---
-idioma = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
+idioma_opcion = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
+idioma = "es" if idioma_opcion == "Español" else "en"
 
 textos = {
-    "Español": {
+    "es": {
         "recomendaciones": "🎧 Tus recomendaciones personalizadas",
         "interactivo": "🚀 Modo Interactivo",
         "explorador": "🎼 Explorar canciones por filtros",
@@ -29,13 +30,13 @@ textos = {
         "anio": "Año de lanzamiento",
         "ordenar_por": "Ordenar por",
         "rango_streams": "Rango de streams",
-        "no_datos": "No hay datos disponibles para mostrar."
+        "no_datos": "No hay datos disponibles para mostrar.",
         "agradecimiento": "Gracias por explorar esta fusión única de música y vino basada en tu personalidad MBTI. ¡Salud y buena vibra! 🍷🎶",
         "nombre_app": "Música y Vino según tu MBTI",
         "mapa_vinos": "🌍 Mapa mundial de vinos por puntuación",
         "mapa_nota": "Basado en la base de datos limitada. La visualización busca resaltar países con mejor reputación vinícola."
     },
-    "English": {
+    "en": {
         "recomendaciones": "🎧 Your personalized recommendations",
         "interactivo": "🚀 Interactive Mode",
         "explorador": "🎼 Explore songs by filters",
@@ -52,14 +53,13 @@ textos = {
         "anio": "Release year",
         "ordenar_por": "Sort by",
         "rango_streams": "Streams range",
-        "no_datos": "No data available to display."
-       "agradecimiento": "Thank you for exploring this unique fusion of music and wine based on your MBTI personality. Cheers and good vibes! 🍷🎶",
+        "no_datos": "No data available to display.",
+        "agradecimiento": "Thank you for exploring this unique fusion of music and wine based on your MBTI personality. Cheers and good vibes! 🍷🎶",
         "nombre_app": "Wine & Music by MBTI",
         "mapa_vinos": "🌍 World Wine Map by Rating",
         "mapa_nota": "Based on a limited dataset. The visualization aims to highlight countries with strong wine reputations."
     }
 }
-
 
 #✅ 2. RECOMENDACIONES + INTERACTIVO (como mini-tabs)
 # --- FUNCIONES AUXILIARES ---
