@@ -74,6 +74,23 @@ with subtab2:
         st.success(f"🎶 **{sugerida['track_name']}** — *{sugerida['artist(s)_name']}*")
     else:
         st.warning("No se encontraron canciones con esos filtros.")
+        
+    if "mbti" in spotify_df.columns:
+        media_mbti = spotify_df.groupby("mbti")[["valence_%", "energy_%", "danceability_%"]].mean().reset_index()
+        tu_mbti_data = media_mbti[media_mbti["mbti"] == tipo]
+
+        if not tu_mbti_data.empty:
+            datos = tu_mbti_data.melt(id_vars="mbti", var_name="característica", value_name="porcentaje")
+            fig = px.bar(
+                datos,
+                x="característica",
+                y="porcentaje",
+                color="característica",
+                text="porcentaje",
+                title=f"🎼 Perfil emocional musical del tipo {tipo}",
+                range_y=[0, 100]
+            )
+            st.plotly_chart(fig, use_container_width=True)
 
 #🎼 Explorar canciones (pestaña principal 2)
 tab_explorar, tab_estadisticas = st.tabs(["🎼 Explorar canciones", "📈 Estadísticas Spotify"])
