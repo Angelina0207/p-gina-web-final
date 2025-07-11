@@ -73,7 +73,7 @@ def contains_word(text, word):
     return normalize_text(word) in normalize_text(text)
 
 # 🌐 Language selector
-language = st.selectbox("🌐 Choose language / Elige idioma:", ["Español", "English"])
+language = st.selectbox("🌐 Choose the language of your preference (there are only two xd) / Escoge el lenguaje de tu preferencia (solo hay dos xd)", ["Español", "English"])
 lang = "es" if language == "Español" else "en"
 
 # --- MULTILINGUAL TEXTS ---
