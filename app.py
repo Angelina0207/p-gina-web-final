@@ -141,20 +141,26 @@ with tab_estadisticas:
     )
     st.plotly_chart(fig2)
 
-# 📌 Parte 4: Mapa mundial de vinos
+# 📌 Parte 4: Mapa mundial de vinos con análisis
 with st.tabs(["🌍 Mapa mundial de vinos"])[0]:
     st.header("🌍 Mapa mundial de vinos por puntuación")
 
-    # Asegurarse de que la columna 'points' es numérica
+    # Asegurarse de que la columna 'points' sea numérica
     wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
 
     if "country" in wine_df.columns and "points" in wine_df.columns:
         mapa_df = wine_df[wine_df["country"].notna() & wine_df["points"].notna()]
+
+        # Agrupar y filtrar por mínimo 10 vinos por país
         mapa_df = mapa_df.groupby("country", as_index=False).agg(
             promedio_puntos=("points", "mean"),
             cantidad_vinos=("points", "count")
         )
+        mapa_df = mapa_df[mapa_df["cantidad_vinos"] >= 10]
+
         if not mapa_df.empty:
+            st.subheader("🗺️ Mapa mundial por puntaje promedio")
+
             fig = px.choropleth(
                 mapa_df,
                 locations="country",
@@ -162,12 +168,28 @@ with st.tabs(["🌍 Mapa mundial de vinos"])[0]:
                 color="promedio_puntos",
                 hover_name="country",
                 hover_data={"promedio_puntos": True, "cantidad_vinos": True},
-                color_continuous_scale="Sunsetdark",
+                color_continuous_scale="YlOrBr",  # Puedes probar: "Inferno", "Plasma", "Sunsetdark"
                 title="🌍 Promedio de puntuación de vinos por país"
             )
-            fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
+            fig.update_geos(showframe=False, showcoastlines=False, projection_type='equirectangular')
+            fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
             st.plotly_chart(fig, use_container_width=True)
+
+            st.caption("📌 *Se muestran solo los países con al menos 10 vinos registrados para evitar sesgos.*")
+
+            st.subheader("🏅 Top 10 países con mejor puntuación promedio")
+            top_paises = mapa_df.sort_values("promedio_puntos", ascending=False).head(10)
+            fig_bar = px.bar(
+                top_paises,
+                x="country",
+                y="promedio_puntos",
+                color="promedio_puntos",
+                labels={"country": "País", "promedio_puntos": "Puntaje promedio"},
+                title="🍷 Países con mejores vinos según puntaje promedio"
+            )
+            fig_bar.update_layout(xaxis_title="País", yaxis_title="Puntaje")
+            st.plotly_chart(fig_bar, use_container_width=True)
         else:
-            st.warning("No hay suficientes datos para generar el mapa.")
+            st.warning("⚠️ No hay suficientes países con datos confiables para mostrar el mapa.")
     else:
-        st.warning("No se encuentran columnas válidas para crear el mapa.")
+        st.error("No se encontraron columnas 'country' o 'points' en la base de datos.")
