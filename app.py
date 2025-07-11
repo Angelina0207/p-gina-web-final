@@ -150,11 +150,10 @@ mbti_profiles = {
     "INTJ": {"description": {"es": "Analítico, reservado, estratégico", "en": "Analytical, reserved, strategic"}, "wine": "Cabernet Sauvignon", "color": "#c2f0c2"},
     "ISFJ": {"description": {"es": "Cálido, protector, leal", "en": "Warm, protective, loyal"}, "wine": "Merlot", "color": "#f0d9b5"},
     "ENTP": {"description": {"es": "Innovador, conversador, curioso", "en": "Innovative, talkative, curious"}, "wine": "Rosé", "color": "#ffcce6"},
-    "ESFP": {"description": {"es": "Alegre, impulsivo, enérgico", "en": "Cheerful, impulsive, energetic"}, "wine": "Sparkling", "color": "#ffcccc"},
+    "ESFP": {"description": {"es": "Alegre, impulsivo, enérgico", "en": "Cheerful, impulsive, energetic"}, "wine": "Espumante", "color": "#ffcccc"},
     "INFJ": {"description": {"es": "Visionario, intuitivo, profundo", "en": "Visionary, intuitive, deep"}, "wine": "Syrah", "color": "#d9d2e9"},
     "ISTJ": {"description": {"es": "Tradicional, metódico, práctico", "en": "Traditional, methodical, practical"}, "wine": "Malbec", "color": "#d9ead3"}
 }
-
 # --- PESTAÑA “Tu Mood Ideal” ---
 tabs = st.tabs(T["tabs_main"][lang])
 
@@ -189,11 +188,10 @@ with tabs[0]:
             for _, row in vinos_filtrados.head(3).iterrows():
                 titulo = row.get("title", "Vino")
                 puntos = row.get("points", "N/A")
-                pais = row.get("country", "País desconocido")
-                descripcion = row.get("description", "Sin descripción.")
+                pais = row.get("country", "País desconocido" if lang == "es" else "Unknown")
+                descripcion = row.get("description", "Sin descripción." if lang == "es" else "No description.")
                 st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
                 st.caption(f"*{descripcion}*")
-
 
     # 🚀 Interactivo
     with subtabs[1]:
