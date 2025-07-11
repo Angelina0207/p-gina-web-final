@@ -4,14 +4,14 @@ import plotly.express as px
 import unicodedata
 
 st.set_page_config("MBTI x Music x Wine", layout="wide")
-# --- CUSTOM STYLE (paleta + centrado) ---
+# --- CUSTOM STYLE (centrado + estilo pastel tierno) ---
 st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
     <style>
         html, body, [class*="css"] {
             font-family: 'Fredoka', sans-serif;
-            background-color: #010221;
-            color: #B7BF99;
+            background-color: #FFF5F7;
+            color: #5D5D5D;
         }
         .stApp {
             max-width: 900px;
@@ -19,23 +19,27 @@ st.markdown("""
             padding-top: 2rem;
         }
         h1, h2, h3 {
-            color: #EDAA25;
+            color: #D86F84;
             font-weight: 600;
             text-align: center;
         }
-        .stSelectbox, .stSlider, .stButton, .stDataFrame, .stMarkdown {
-            text-align: center;
+        .stSelectbox label, .stSlider label, .stMarkdown {
+            color: #5D5D5D;
         }
         .stButton>button {
-            background-color: #C43302;
+            background-color: #F7B267;
             color: white;
             border-radius: 10px;
             padding: 10px 20px;
             font-weight: bold;
             border: none;
         }
+        .stSlider .css-14rwr7n {  /* slider track */
+            background-color: #A0C1B8;
+        }
     </style>
 """, unsafe_allow_html=True)
+
 # --- CUSTOM STYLE ---
 st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
