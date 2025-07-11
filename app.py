@@ -167,16 +167,16 @@ with tabs[0]:
                 st.caption(f"*{r.get('description','No description.')}*")
 
     # Interactive
-with subtabs[1]:
-    st.header("🚀 Explora tu mood musical y vinícola")
-    tipo = st.selectbox("1️⃣ ¿Cuál es tu tipo de personalidad MBTI?", list(mbti_perfiles.keys()), key="mbti2")
-    perfil = mbti_perfiles[tipo]
-    vino = perfil["vino"]
+with subt[1]:
+    st.header(T["subtabs_mood"][lang][1])
+    tipo = st.selectbox(f"1️⃣ {T['labels'][lang]['mbti_select']}", list(mbti_profiles.keys()), key="mbti2")
+    perfil = mbti_profiles[tipo]
+    vino = perfil["wine"]
 
-    st.subheader("2️⃣ Ajusta tu mood musical 🎚️")
-    energia = st.slider("Nivel de energía 🎧", 0, 100, (50, 100))
-    valence = st.slider("Nivel de felicidad 😊", 0, 100, (50, 100))
-    bailabilidad = st.slider("¿Qué tan bailable? 💃", 0, 100, (50, 100))
+    st.subheader(f"2️⃣ {T['labels'][lang]['energy']}")
+    energia = st.slider(T["labels"][lang]["energy"], 0, 100, (50, 100))
+    valence = st.slider(T["labels"][lang]["happiness"], 0, 100, (50, 100))
+    bailabilidad = st.slider(T["labels"][lang]["danceability"], 0, 100, (50, 100))
 
     filtro = spotify_df[
         (spotify_df['valence_%'].between(valence[0], valence[1])) &
@@ -188,9 +188,9 @@ with subtabs[1]:
         resultado = filtro.sample(1).iloc[0]
         st.markdown(f"🎶 **{resultado['track_name']}** — *{resultado['artist(s)_name']}*")
     else:
-        st.warning("No se encontraron canciones con esos parámetros.")
+        st.warning(T["labels"][lang]["no_songs"])
 
-    st.markdown(f"🍷 **Vino ideal:** {vino}")
+    st.markdown(f"{T['labels'][lang]['ideal_wine']} **{vino}**")
 
 # 🎼 Explore Songs
 with main_tabs[1]:
