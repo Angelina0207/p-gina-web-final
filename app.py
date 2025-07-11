@@ -96,67 +96,69 @@ with tabs[1]:
             st.markdown(f"**{titulo}** — ⭐ {row['points']} puntos — {row.get('country', 'País desconocido')}")
             st.caption(f"*{row.get('description', 'Sin descripción.')}*")
             st.markdown("---")
-#📌 Parte 3: Explorador musical interactivo
-with tabs[2]:
-    st.header("🎼 Explorar canciones por filtros")
-
-    spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
-    if not spotify_clean.empty:
-        año = st.selectbox("Año de lanzamiento", sorted(spotify_clean["released_year"].unique()))
-        # Limpieza previa garantizada
-    if "streams" in spotify_df.columns:
-    spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
-    spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
-    max_streams_val = spotify_clean["streams"].dropna().max()
-
-    if pd.notna(max_streams_val):
-        max_streams = int(max_streams_val)
-    else:
-        max_streams = 50_000_000  # valor de respaldo
-    else:
-        st.error("La columna 'streams' no existe en el archivo CSV.")
-        rango_streams = st.slider(
-    "🎧 Filtrar por número de streams",
-    min_value=1_000_000,
-    max_value=max_streams,
-    value=(1_000_000, min(max_streams, 50_000_000)),
-    step=1_000_000
-)
-        min_s, max_s = st.slider("Rango de streams", 0, max_streams, (1000000, 10000000), step=500000)
-        orden = st.selectbox("Ordenar por", ["streams", "valence_%", "energy_%", "danceability_%"])
-
-        filtrado = spotify_clean[
-            (spotify_clean["released_year"] == año) &
-            (spotify_clean["streams"] >= min_s) &
-            (spotify_clean["streams"] <= max_s)
-        ].sort_values(orden, ascending=False).head(20)
-
-        st.dataframe(filtrado[["track_name", "artist(s)_name", "streams"]])
-        st.download_button("⬇️ Descargar CSV", filtrado.to_csv(index=False), "filtrado.csv")
-
-        st.subheader("🎤 Artistas más frecuentes")
-        top_artistas = spotify_df["artist(s)_name"].value_counts().head(10)
-        fig = px.bar(
-            x=top_artistas.index,
-            y=top_artistas.values,
-            labels={"x": "Artista", "y": "Número de canciones"},
-            title="Top 10 artistas más presentes"
-        )
-        st.plotly_chart(fig)
-
-        st.subheader("🎵 Energía vs Felicidad")
-        fig2 = px.scatter(
-            spotify_clean.sample(300),
-            x="valence_%",
-            y="energy_%",
-            hover_data=["track_name", "artist(s)_name"],
-            color="energy_%"
-        )
-        st.plotly_chart(fig2)
-
-# Pestaña nueva para análisis
+# Pestañas
 tab1, tab2, tab3 = st.tabs(["🎧 Recomendaciones", "🚀 Interactivo", "📈 Estadísticas Spotify"])
 
+# 📌 Parte 3: Explorador musical interactivo
+with tab3:
+    st.header("📈 Explorar canciones por filtros")
+
+    # Asegurar que la columna 'streams' es numérica
+    if "streams" in spotify_df.columns:
+        spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
+
+        # Limpiar NaN
+        spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
+
+        if not spotify_clean.empty:
+            # Selectbox para año
+            año = st.selectbox("Año de lanzamiento", sorted(spotify_clean["released_year"].unique()))
+
+            # Rango dinámico de streams
+            max_streams_val = spotify_clean["streams"].dropna().max()
+            max_streams = int(max_streams_val) if pd.notna(max_streams_val) else 50_000_000
+            min_s, max_s = st.slider("🎧 Rango de streams", 0, max_streams, (1_000_000, 10_000_000), step=500_000)
+
+            # Orden por métrica
+            orden = st.selectbox("Ordenar por", ["streams", "valence_%", "energy_%", "danceability_%"])
+
+            # Filtro
+            filtrado = spotify_clean[
+                (spotify_clean["released_year"] == año) &
+                (spotify_clean["streams"] >= min_s) &
+                (spotify_clean["streams"] <= max_s)
+            ].sort_values(orden, ascending=False).head(20)
+
+            # Mostrar tabla
+            st.dataframe(filtrado[["track_name", "artist(s)_name", "streams"]])
+            st.download_button("⬇️ Descargar CSV", filtrado.to_csv(index=False), "filtrado.csv")
+
+            # Gráfico: Artistas más frecuentes
+            st.subheader("🎤 Artistas más frecuentes")
+            top_artistas = spotify_clean["artist(s)_name"].value_counts().head(10)
+            fig = px.bar(
+                x=top_artistas.index,
+                y=top_artistas.values,
+                labels={"x": "Artista", "y": "Número de canciones"},
+                title="Top 10 artistas más presentes"
+            )
+            st.plotly_chart(fig)
+
+            # Gráfico: Energía vs Felicidad
+            st.subheader("🎵 Energía vs Felicidad")
+            fig2 = px.scatter(
+                spotify_clean.sample(300),
+                x="valence_%", y="energy_%",
+                hover_data=["track_name", "artist(s)_name"],
+                color="energy_%",
+                title="Canciones: Valence vs Energía"
+            )
+            st.plotly_chart(fig2)
+        else:
+            st.warning("No hay datos suficientes en Spotify para mostrar estadísticas.")
+    else:
+        st.error("La columna 'streams' no está disponible en el CSV.")
+        
 # --- Pestaña de estadísticas ---
 with tab3:
     st.header("📈 Análisis de Canciones Populares en Spotify")
