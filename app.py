@@ -269,7 +269,7 @@ with tabs[1]:
         st.warning("No hay suficientes datos limpios para mostrar estadísticas.")
 
 # 📈 Spotify Stats
-with main_tabs[2]:
+with tabs[2]:
     st.header("📈 Estadísticas generales de Spotify")
 
     st.subheader("🎶 Distribución de BPM")
