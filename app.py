@@ -75,6 +75,8 @@ with subtab2:
     else:
         st.warning("No se encontraron canciones con esos filtros.")
         
+     st.subheader("📊 Tu perfil musical según MBTI")
+
     if "mbti" in spotify_df.columns:
         media_mbti = spotify_df.groupby("mbti")[["valence_%", "energy_%", "danceability_%"]].mean().reset_index()
         tu_mbti_data = media_mbti[media_mbti["mbti"] == tipo]
