@@ -30,7 +30,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Datos
-spotify_df = pd.read_csv("spotify-2023.csv")
+spotify_df = pd.read_csv("spotify-2023.csv", encoding="latin1")
 wine_df = pd.read_csv("winemag-data_first150k.csv", on_bad_lines='skip', low_memory=False)
 wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
 wine_df["variety"] = wine_df["variety"].fillna("")
