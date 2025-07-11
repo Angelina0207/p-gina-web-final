@@ -167,30 +167,30 @@ with tabs[0]:
                 st.caption(f"*{r.get('description','No description.')}*")
 
     # Interactive
-        st.header("🚀 Explora tu mood musical y vinícola")
-        tipo = st.selectbox("1️⃣ ¿Cuál es tu tipo de personalidad MBTI?", list(mbti_perfiles.keys()), key="mbti2")
-        perfil = mbti_perfiles[tipo]
-        vino = perfil["vino"]
+with subtabs[1]:
+    st.header("🚀 Explora tu mood musical y vinícola")
+    tipo = st.selectbox("1️⃣ ¿Cuál es tu tipo de personalidad MBTI?", list(mbti_perfiles.keys()), key="mbti2")
+    perfil = mbti_perfiles[tipo]
+    vino = perfil["vino"]
 
-        st.subheader("2️⃣ Ajusta tu mood musical 🎚️")
-        energia = st.slider("Nivel de energía 🎧", 0, 100, (50, 100))
-        valence = st.slider("Nivel de felicidad 😊", 0, 100, (50, 100))
-        bailabilidad = st.slider("¿Qué tan bailable? 💃", 0, 100, (50, 100))
+    st.subheader("2️⃣ Ajusta tu mood musical 🎚️")
+    energia = st.slider("Nivel de energía 🎧", 0, 100, (50, 100))
+    valence = st.slider("Nivel de felicidad 😊", 0, 100, (50, 100))
+    bailabilidad = st.slider("¿Qué tan bailable? 💃", 0, 100, (50, 100))
 
-        filtro = spotify_df[
-            (spotify_df['valence_%'].between(valence[0], valence[1])) &
-            (spotify_df['energy_%'].between(energia[0], energia[1])) &
-            (spotify_df['danceability_%'].between(bailabilidad[0], bailabilidad[1]))
-        ]
+    filtro = spotify_df[
+        (spotify_df['valence_%'].between(valence[0], valence[1])) &
+        (spotify_df['energy_%'].between(energia[0], energia[1])) &
+        (spotify_df['danceability_%'].between(bailabilidad[0], bailabilidad[1]))
+    ]
 
-        if not filtro.empty:
-            resultado = filtro.sample(1).iloc[0]
-            st.markdown(f"🎶 **{resultado['track_name']}** — *{resultado['artist(s)_name']}*")
-        else:
-            st.warning("No se encontraron canciones con esos parámetros.")
+    if not filtro.empty:
+        resultado = filtro.sample(1).iloc[0]
+        st.markdown(f"🎶 **{resultado['track_name']}** — *{resultado['artist(s)_name']}*")
+    else:
+        st.warning("No se encontraron canciones con esos parámetros.")
 
-        st.markdown(f"🍷 **Vino ideal:** {vino}")
-
+    st.markdown(f"🍷 **Vino ideal:** {vino}")
 
 # 🎼 Explore Songs
 with main_tabs[1]:
