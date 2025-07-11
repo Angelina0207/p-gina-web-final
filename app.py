@@ -245,7 +245,6 @@ with main_tabs[2]:
 
 #🌍 PARTE 5: Mapa mundial de vinos
 with main_tabs[3]:
-    st.header("🌍 Mapa mundial de vinos por puntuación")
     st.header("🌍 Mapa mundial de vinos por puntuación promedio")
 
     # Asegurar que 'points' es numérica
