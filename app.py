@@ -221,7 +221,7 @@ with tabs[0]:
         st.markdown(f"🍷 **{T['labels'][lang]['ideal_wine']}** {vino}")
         
 # 🎼 Explore Songs
-with main_tabs[1]:
+with tabs[1]:
     st.header("🎼 Explorar canciones por filtros")
 
     spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
