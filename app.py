@@ -143,54 +143,86 @@ spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
 # --- MAIN TABS ---
 tabs = st.tabs(T["tabs_main"][lang])
 
-# 🎧 Your Ideal Mood
-with tabs[0]:
-    subt = st.tabs(T["subtabs_mood"][lang])
+# 💡 Asegúrate de tener esta variable antes de este bloque:
+# lang = "es" if language == "Español" else "en"
 
-    # Recommendations
-    with subt[0]:
+# --- MBTI PROFILES MULTILINGÜES ---
+mbti_profiles = {
+    "INFP": {"description": {"es": "Soñador, sensible, introspectivo", "en": "Dreamy, sensitive, introspective"}, "wine": "Pinot Noir", "color": "#e6ccff"},
+    "ENFP": {"description": {"es": "Espontáneo, creativo, sociable", "en": "Spontaneous, creative, sociable"}, "wine": "Sauvignon Blanc", "color": "#ffe680"},
+    "INTJ": {"description": {"es": "Analítico, reservado, estratégico", "en": "Analytical, reserved, strategic"}, "wine": "Cabernet Sauvignon", "color": "#c2f0c2"},
+    "ISFJ": {"description": {"es": "Cálido, protector, leal", "en": "Warm, protective, loyal"}, "wine": "Merlot", "color": "#f0d9b5"},
+    "ENTP": {"description": {"es": "Innovador, conversador, curioso", "en": "Innovative, talkative, curious"}, "wine": "Rosé", "color": "#ffcce6"},
+    "ESFP": {"description": {"es": "Alegre, impulsivo, enérgico", "en": "Cheerful, impulsive, energetic"}, "wine": "Sparkling", "color": "#ffcccc"},
+    "INFJ": {"description": {"es": "Visionario, intuitivo, profundo", "en": "Visionary, intuitive, deep"}, "wine": "Syrah", "color": "#d9d2e9"},
+    "ISTJ": {"description": {"es": "Tradicional, metódico, práctico", "en": "Traditional, methodical, practical"}, "wine": "Malbec", "color": "#d9ead3"}
+}
+
+# --- PESTAÑA “Tu Mood Ideal” ---
+tabs = st.tabs(T["tabs_main"][lang])
+
+with tabs[0]:
+    subtabs = st.tabs(T["subtabs_mood"][lang])
+
+    # 🎧 Recomendaciones
+    with subtabs[0]:
         st.header(T["labels"][lang]["song_rec"])
         mbti = st.selectbox(T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti1")
         profile = mbti_profiles[mbti]
         wine = profile["wine"]
-        st.markdown(f"<div style='background:{profile['color']};padding:10px;border-radius:8px'><h2>{mbti} — {profile['description']}</h2><h4>{T['labels'][lang]['ideal_wine']} <i>{wine}</i></h4></div>", unsafe_allow_html=True)
-        songs = spotify_df[(spotify_df["valence_%"] >= 50)&(spotify_df["energy_%"] >= 50)].sample(3)
-        for _, r in songs.iterrows():
-            st.markdown(f"- **{r['track_name']}** — *{r['artist(s)_name']}*")
+        desc = profile["description"][lang]
+
+        st.markdown(f"""
+            <div style='background-color:{profile["color"]}; padding:15px; border-radius:10px'>
+                <h2>{mbti} — {desc}</h2>
+                <h4>{T['labels'][lang]['ideal_wine']} <i>{wine}</i></h4>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.subheader(T["labels"][lang]["song_rec"])
+        canciones = spotify_df[(spotify_df["valence_%"] >= 50) & (spotify_df["energy_%"] >= 50)].sample(3)
+        for _, row in canciones.iterrows():
+            st.markdown(f"- **{row['track_name']}** — *{row['artist(s)_name']}*")
+
         st.subheader(T["labels"][lang]["wine_rec"])
-        fw = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
-        if fw.empty:
+        vinos_filtrados = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
+        if vinos_filtrados.empty:
             st.warning(T["labels"][lang]["no_wines"])
         else:
-            for _, r in fw.head(3).iterrows():
-                st.markdown(f"**{r.get('title','Wine')}** — ⭐ {r.get('points','N/A')} — {r.get('country','Unknown')}")
-                st.caption(f"*{r.get('description','No description.')}*")
+            for _, row in vinos_filtrados.head(3).iterrows():
+                titulo = row.get("title", "Vino")
+                puntos = row.get("points", "N/A")
+                pais = row.get("country", "País desconocido")
+                descripcion = row.get("description", "Sin descripción.")
+                st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
+                st.caption(f"*{descripcion}*")
 
-    # Interactive
-with subt[1]:
-    st.header(T["subtabs_mood"][lang][1])
-    tipo = st.selectbox(f"1️⃣ {T['labels'][lang]['mbti_select']}", list(mbti_profiles.keys()), key="mbti2")
-    perfil = mbti_profiles[tipo]
-    vino = perfil["wine"]
+    # 🚀 Interactivo
+    with subtabs[1]:
+        st.header("🚀 " + ( "Explora tu mood musical y vinícola" if lang == "es" else "Explore your musical & wine mood"))
 
-    st.subheader(f"2️⃣ {T['labels'][lang]['energy']}")
-    energia = st.slider(T["labels"][lang]["energy"], 0, 100, (50, 100))
-    valence = st.slider(T["labels"][lang]["happiness"], 0, 100, (50, 100))
-    bailabilidad = st.slider(T["labels"][lang]["danceability"], 0, 100, (50, 100))
+        tipo = st.selectbox("1️⃣ " + T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti2")
+        perfil = mbti_profiles[tipo]
+        vino = perfil["wine"]
 
-    filtro = spotify_df[
-        (spotify_df['valence_%'].between(valence[0], valence[1])) &
-        (spotify_df['energy_%'].between(energia[0], energia[1])) &
-        (spotify_df['danceability_%'].between(bailabilidad[0], bailabilidad[1]))
-    ]
+        st.subheader("2️⃣ " + ("Ajusta tu mood musical 🎚️" if lang == "es" else "Adjust your musical mood 🎚️"))
+        energia = st.slider(T["labels"][lang]["energy"], 0, 100, (50, 100))
+        valence = st.slider(T["labels"][lang]["happiness"], 0, 100, (50, 100))
+        bailabilidad = st.slider(T["labels"][lang]["danceability"], 0, 100, (50, 100))
 
-    if not filtro.empty:
-        resultado = filtro.sample(1).iloc[0]
-        st.markdown(f"🎶 **{resultado['track_name']}** — *{resultado['artist(s)_name']}*")
-    else:
-        st.warning(T["labels"][lang]["no_songs"])
+        filtro = spotify_df[
+            (spotify_df['valence_%'].between(valence[0], valence[1])) &
+            (spotify_df['energy_%'].between(energia[0], energia[1])) &
+            (spotify_df['danceability_%'].between(bailabilidad[0], bailabilidad[1]))
+        ]
 
-    st.markdown(f"{T['labels'][lang]['ideal_wine']} **{vino}**")
+        if not filtro.empty:
+            resultado = filtro.sample(1).iloc[0]
+            st.markdown(f"🎶 **{resultado['track_name']}** — *{resultado['artist(s)_name']}*")
+        else:
+            st.warning(T["labels"][lang]["no_songs"])
+
+        st.markdown(f"🍷 **{T['labels'][lang]['ideal_wine']}** {vino}")
 
 # 🎼 Explore Songs
 with main_tabs[1]:
