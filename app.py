@@ -245,67 +245,31 @@ with main_tabs[2]:
 
 #🌍 PARTE 5: Mapa mundial de vinos
 with main_tabs[3]:
-    st.header("🌍 Mapa mundial de vinos por puntuación promedio")
+    st.header("🌍 Mapa mundial de vinos por puntuación")
 
-    # Asegurar que 'points' es numérica
     wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
+    wine_df["country"] = wine_df["country"].fillna("Desconocido")
 
-    if "country" in wine_df.columns and "points" in wine_df.columns:
-        mapa_df = wine_df[wine_df["country"].notna() & wine_df["points"].notna()]
+    mapa_df = wine_df.dropna(subset=["points", "country"])
+    mapa_df = mapa_df.groupby("country", as_index=False).agg(
+        promedio_puntos=("points", "mean"),
+        cantidad_vinos=("points", "count")
+    )
 
-        # Agrupación por país
-        mapa_df = mapa_df.groupby("country", as_index=False).agg(
-            promedio_puntos=("points", "mean"),
-            cantidad_vinos=("points", "count")
+    if not mapa_df.empty:
+        fig = px.choropleth(
+            mapa_df,
+            locations="country",
+            locationmode="country names",
+            color="promedio_puntos",
+            hover_name="country",
+            hover_data=["promedio_puntos", "cantidad_vinos"],
+            color_continuous_scale="YlOrRd",
+            title="🌎 Puntuación promedio de vinos por país"
         )
-
-        # Filtrar solo países con tradición vinícola
-        paises_validos = [
-            "Italy", "France", "Spain", "Chile", "Argentina",
-            "Portugal", "Germany", "Australia", "New Zealand",
-            "United States", "South Africa"
-        ]
-        mapa_df = mapa_df[mapa_df["country"].isin(paises_validos)]
-
-        if not mapa_df.empty:
-            st.subheader("🗺️ Calidad promedio por país productor")
-
-            fig = px.choropleth(
-                mapa_df,
-                locations="country",
-                locationmode="country names",
-                color="promedio_puntos",
-                hover_name="country",
-                hover_data={"promedio_puntos": True, "cantidad_vinos": True},
-                color_continuous_scale="YlOrBr",
-                title="🌍 Promedio de puntuación de vinos por país"
-            )
-            fig.update_geos(
-                showframe=False,
-                showcoastlines=True,
-                projection_type='natural earth'
-            )
-            fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
-            st.plotly_chart(fig, use_container_width=True)
-
-            st.caption("📌 Solo se muestran países con reconocida tradición vinícola. Datos basados en puntuaciones registradas.")
-
-            st.subheader("🏅 Top 10 países con mejor puntaje promedio")
-            top_paises = mapa_df.sort_values("promedio_puntos", ascending=False).head(10)
-            fig_bar = px.bar(
-                top_paises,
-                x="country",
-                y="promedio_puntos",
-                color="promedio_puntos",
-                labels={"country": "País", "promedio_puntos": "Puntaje promedio"},
-                title="🍷 Países con los vinos mejor valorados"
-            )
-            fig_bar.update_layout(xaxis_title="País", yaxis_title="Puntaje")
-            st.plotly_chart(fig_bar, use_container_width=True)
-
-            # Disclaimer ético si decides dejarlo
-            st.caption("⚠️ Este mapa es meramente informativo y refleja datos enológicos. No implica respaldo hacia ningún país.")
-        else:
-            st.warning("⚠️ No hay suficientes datos confiables para mostrar el mapa.")
+        fig.update_geos(showcoastlines=True, projection_type="natural earth")
+        fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+        st.plotly_chart(fig, use_container_width=True)
     else:
-        st.error("❌ No se encontraron columnas 'country' o 'points' en la base de datos.")
+        st.warning("No hay datos suficientes para generar el mapa.")
+
