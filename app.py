@@ -103,7 +103,25 @@ with tabs[2]:
     spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
     if not spotify_clean.empty:
         año = st.selectbox("Año de lanzamiento", sorted(spotify_clean["released_year"].unique()))
-        max_streams = int(spotify_clean["streams"].max())
+        # Limpieza previa garantizada
+    if "streams" in spotify_df.columns:
+    spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
+    spotify_clean = spotify_df.dropna(subset=["streams", "released_year"])
+    max_streams_val = spotify_clean["streams"].dropna().max()
+
+    if pd.notna(max_streams_val):
+        max_streams = int(max_streams_val)
+    else:
+        max_streams = 50_000_000  # valor de respaldo
+    else:
+        st.error("La columna 'streams' no existe en el archivo CSV.")
+        rango_streams = st.slider(
+    "🎧 Filtrar por número de streams",
+    min_value=1_000_000,
+    max_value=max_streams,
+    value=(1_000_000, min(max_streams, 50_000_000)),
+    step=1_000_000
+)
         min_s, max_s = st.slider("Rango de streams", 0, max_streams, (1000000, 10000000), step=500000)
         orden = st.selectbox("Ordenar por", ["streams", "valence_%", "energy_%", "danceability_%"])
 
