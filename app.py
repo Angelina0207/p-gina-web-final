@@ -140,3 +140,31 @@ with tab_estadisticas:
         title="Distribución emocional de canciones"
     )
     st.plotly_chart(fig2)
+
+# 📌 Parte 4: Mapa mundial de vinos
+with st.tabs(["🌍 Mapa mundial de vinos"])[0]:
+    st.header("🌍 Mapa mundial de vinos por puntuación")
+
+    if "country" in wine_df.columns and "points" in wine_df.columns:
+        mapa_df = wine_df[wine_df["country"].notna() & wine_df["points"].notna()]
+        mapa_df = mapa_df.groupby("country", as_index=False).agg(
+            promedio_puntos=("points", "mean"),
+            cantidad_vinos=("points", "count")
+        )
+        if not mapa_df.empty:
+            fig = px.choropleth(
+                mapa_df,
+                locations="country",
+                locationmode="country names",
+                color="promedio_puntos",
+                hover_name="country",
+                hover_data={"promedio_puntos": True, "cantidad_vinos": True},
+                color_continuous_scale="Sunsetdark",
+                title="🌍 Promedio de puntuación de vinos por país"
+            )
+            fig.update_layout(margin={"r":0,"t":50,"l":0,"b":0})
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.warning("No hay suficientes datos para generar el mapa.")
+    else:
+        st.warning("No se encuentran columnas válidas para crear el mapa.")
