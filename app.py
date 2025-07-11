@@ -308,7 +308,7 @@ with tabs[2]:
     st.caption("Fuente: Base de datos de Spotify 2023. Los valores se han limpiado para esta visualización.")
 
 # 🌍 Global Wine Map
-with main_tabs[3]:
+with tabs[3]:
     st.header("🌍 Mapa mundial de vinos por puntuación")
 
     wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
