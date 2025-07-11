@@ -194,10 +194,12 @@ with tabs[0]:
                 st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
                 st.caption(f"*{descripcion}*")
 
-    # Interactivo
-    with subt[1]:
-        st.header("🚀 " + ("Explora tu mood musical y vinícola" if lang == "es" else "Explore your musical and wine mood"))
-        tipo = st.selectbox("1️⃣ " + ("¿Cuál es tu tipo de personalidad MBTI?" if lang == "es" else "What's your MBTI type?"), list(mbti_profiles.keys()), key="mbti2")
+
+    # 🚀 Interactivo
+    with subtabs[1]:
+        st.header("🚀 " + ( "Explora tu mood musical y vinícola" if lang == "es" else "Explore your musical & wine mood"))
+
+        tipo = st.selectbox("1️⃣ " + T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti2")
         perfil = mbti_profiles[tipo]
         vino = perfil["wine"]
 
@@ -218,23 +220,8 @@ with tabs[0]:
         else:
             st.warning(T["labels"][lang]["no_songs"])
 
-        st.markdown(f"{T['labels'][lang]['ideal_wine']} **{vino}**")
-
-        # Mostrar vinos sugeridos según tipo de MBTI
-        st.subheader(T["labels"][lang]["wine_rec"])
-        vinos_filtrados = wine_df[wine_df["variety"].fillna("").str.contains(vino, case=False)]
-        if vinos_filtrados.empty:
-            st.warning(T["labels"][lang]["no_wines"])
-        else:
-            for _, row in vinos_filtrados.head(3).iterrows():
-                titulo = row.get("title", "Wine")
-                puntos = row.get("points", "N/A")
-                pais = row.get("country", "Unknown" if lang == "en" else "País desconocido")
-                descripcion = row.get("description", "No description." if lang == "en" else "Sin descripción.")
-                st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
-                st.caption(f"*{descripcion}*")
-                st.markdown("---")
-                
+        st.markdown(f"🍷 **{T['labels'][lang]['ideal_wine']}** {vino}")
+        
 # 🎼 Explore Songs
 with main_tabs[1]:
     st.header("🎼 Explorar canciones por filtros")
