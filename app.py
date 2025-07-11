@@ -5,6 +5,70 @@ import unicodedata
 
 st.set_page_config("MBTI x Music x Wine", layout="wide")
 
+st.markdown("""
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+    html, body, [class*="css"] {
+        font-family: 'Fredoka', sans-serif;
+        background-color: #010221;
+        color: #ffffff;
+    }
+
+    .main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    h1, h2, h3 {
+        color: #EDAA25;
+        font-weight: 600;
+    }
+
+    .stButton>button {
+        background-color: #0A7373;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-weight: bold;
+        border: none;
+    }
+
+    .stTabs [role="tab"] {
+        background-color: #0A7373;
+        color: white;
+        border-radius: 5px 5px 0 0;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background-color: #EDAA25 !important;
+        color: #010221 !important;
+        font-weight: bold;
+    }
+
+    .stAlert {
+        background-color: #C43302;
+        color: white;
+    }
+
+    .stDataFrame {
+        background-color: #B7BF99 !important;
+        color: #010221 !important;
+    }
+
+    .css-1d391kg, .stSelectbox, .stSlider {
+        background-color: #0A7373 !important;
+        color: white !important;
+    }
+
+    .css-1dp5vir, .css-1v0mbdj {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # --- CUSTOM STYLE ---
 st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
