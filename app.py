@@ -145,6 +145,9 @@ with tab_estadisticas:
 with st.tabs(["🌍 Mapa mundial de vinos"])[0]:
     st.header("🌍 Mapa mundial de vinos por puntuación")
 
+    # Asegurarse de que la columna 'points' es numérica
+    wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
+
     if "country" in wine_df.columns and "points" in wine_df.columns:
         mapa_df = wine_df[wine_df["country"].notna() & wine_df["points"].notna()]
         mapa_df = mapa_df.groupby("country", as_index=False).agg(
