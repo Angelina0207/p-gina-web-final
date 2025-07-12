@@ -177,6 +177,7 @@ Your sensory journey begins here."""
     }
 }
 
+# --- INTRO ---
 st.markdown(f"""
     <style>
     @keyframes fadeIn {{
@@ -215,6 +216,7 @@ st.markdown(f"""
         line-height: 1.6;
         max-width: 700px;
         margin: auto;
+        white-space: pre-wrap;
     }}
 
     .floating-img {{
