@@ -270,36 +270,45 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
 
     # --- 🎧 Subpestaña 1: Recomendaciones ---
     with subtabs[0]:
-        #MINI TEST MBTI — Para quienes no saben su tipo
+# -----------------------------
+# MINI TEST MBTI — Para quienes no saben su tipo
+# -----------------------------
+st.markdown("### 🤔 ¿No sabes tu tipo MBTI?")
+if st.button("¡Haz este mini test de 4 preguntas!"):
+    st.session_state.show_test = True  # Activa el test si se presiona el botón
 
-# Este bloque es un test rápido que ayuda a estimar el MBTI del usuario usando solo 4 preguntas clave.
-# Lo incluimos dentro de un st.expander() para que no ocupe espacio hasta que el usuario decida abrirlo.
-with st.expander("❓ ¿No sabes tu tipo MBTI? Haz este mini test rápido", expanded=False):
-    st.markdown("Responde estas 4 preguntas para sugerirte un tipo MBTI aproximado:")
+# Este bloque aparece solo si el usuario hace clic en el botón
+if st.session_state.get("show_test", False):
+    st.markdown("#### ✨ Responde estas 4 preguntas para conocer tu tipo MBTI:")
 
-    # 💡 Pregunta 1: ¿Introvertido o extrovertido?
-    q1 = st.radio("1️) ¿Prefieres recargar energías estando solo/a o con otras personas?", ["Solo/a (I)", "Con otros (E)"])
+    # Pregunta 1: Introversión vs Extroversión
+    p1 = st.radio("1️⃣ ¿Cómo recargas energías?", 
+                  ["Estando solx o en calma (I)", "Estando con gente o en movimiento (E)"])
 
-    # 💡 Pregunta 2: ¿Te guías más por la lógica o la empatía?
-    q2 = st.radio("2️) ¿Te guías más por la lógica o por la empatía?", ["Lógica (T)", "Empatía (F)"])
+    # Pregunta 2: Intuición vs Sensación
+    p2 = st.radio("2️⃣ ¿Cómo percibes el mundo?", 
+                  ["A través de ideas y posibilidades (N)", "A través de hechos y detalles (S)"])
 
-    # 💡 Pregunta 3: ¿Hechos o intuición?
-    q3 = st.radio("3️) ¿Tomas decisiones basándote en hechos o intuiciones?", ["Hechos (S)", "Intuición (N)"])
+    # Pregunta 3: Pensamiento vs Sentimiento
+    p3 = st.radio("3️⃣ ¿Cómo tomas decisiones?", 
+                  ["Con lógica y objetividad (T)", "Con empatía y valores personales (F)"])
 
-    # 💡 Pregunta 4: ¿Eres estructurado o más espontáneo?
-    q4 = st.radio("4️) ¿Eres más estructurado o improvisador?", ["Estructurado (J)", "Improvisador (P)"])
+    # Pregunta 4: Percepción vs Juicio
+    p4 = st.radio("4️⃣ ¿Cómo prefieres organizar tu vida?", 
+                  ["Flexible y espontáneamente (P)", "Con planificación y estructura (J)"])
 
-    # 👉 Al hacer clic en este botón, se construye el MBTI estimado con base en las respuestas del usuario
-    if st.button("Ver mi MBTI estimado"):
-        # 🧠 Se forman las letras del tipo MBTI según cada respuesta
-        letra1 = "I" if "Solo" in q1 else "E"
-        letra2 = "T" if "Lógica" in q2 else "F"
-        letra3 = "S" if "Hechos" in q3 else "N"
-        letra4 = "J" if "Estructurado" in q4 else "P"
-        mbti_estimado = letra1 + letra3 + letra2 + letra4
+    # Convertimos las respuestas a letras MBTI
+    mbti_test = ""
+    mbti_test += "I" if "Estando solx" in p1 else "E"
+    mbti_test += "N" if "ideas" in p2 else "S"
+    mbti_test += "T" if "lógica" in p3 else "F"
+    mbti_test += "P" if "espontáneamente" in p4 else "J"
 
-        # ✅ Muestra el tipo MBTI estimado con un mensaje claro
-        st.success(f"✨ Tu tipo MBTI estimado es: **{mbti_estimado}** — ¡úsalo ahora en el selector para ver tus recomendaciones!")
+    st.success(f"🔍 Según tus respuestas, tu tipo MBTI podría ser: **{mbti_test}**")
+
+    # Opción: usar ese resultado directamente
+    if st.button("Usar este tipo para ver recomendaciones"):
+        st.session_state.mbti1 = mbti_test  # Guarda el resultado en session_state
   
       st.header("🎧 " + ( "Recomendaciones musicales y de vino" if lang == "es" else "Music & Wine Recommendations"))
         mbti = st.selectbox(T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti1")
