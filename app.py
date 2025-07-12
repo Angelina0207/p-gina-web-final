@@ -37,6 +37,12 @@ st.markdown("""
         .stSlider .css-14rwr7n {  /* slider track */
             background-color: #A0C1B8;
         }
+        <style>
+        @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(-10px);}
+        to {opacity: 1; transform: translateY(0);}
+}
+</style>
     </style>
 """, unsafe_allow_html=True)
 
@@ -172,7 +178,18 @@ Your sensory journey begins here."""
 }
 
 # --- INTRO ---
-st.markdown(f"### {T['intro']['title'][lang]}")
+st.markdown(f"""
+    <div style='text-align:center; margin-top:30px;'>
+        <h1 style='
+            font-size: 48px;
+            font-weight: 700;
+            color: #D86F84;
+            animation: fadeIn 2s ease-in-out;
+        '>
+            {T['intro']['title'][lang]}
+        </h1>
+    </div>
+""", unsafe_allow_html=True)
 st.write(T['intro']['text'][lang])
 
 # --- LOAD DATA ---
