@@ -169,9 +169,7 @@ T["subtabs_mood"] = {
 tabs = st.tabs(T["tabs_main"][lang])
 
 #✅ PARTE 5 — Pestaña "Tu Mood Ideal" (Recomendaciones + Interactivo)
-python
-Copiar
-Editar
+
 with tabs[0]:  # 🎧 Tu Mood Ideal
     subtabs = st.tabs(T["subtabs_mood"][lang])
 
