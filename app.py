@@ -224,6 +224,30 @@ T["songs_tab"] = {
         "en": "No data available to display."
     }
 }
+# --- TEXTOS DE LA PESTAÑA DE ESTADÍSTICAS DE SPOTIFY ---
+T["spotify_stats"] = {
+    "header": {
+        "es": "📈 Estadísticas de Spotify",
+        "en": "📈 Spotify Statistics"
+    },
+    "bpm": {
+        "es": "Distribución de BPM (Beats por minuto)",
+        "en": "BPM Distribution (Beats per Minute)"
+    },
+    "energy_dance": {
+        "es": "Relación entre energía y bailabilidad",
+        "en": "Energy vs Danceability"
+    },
+    "top_streams": {
+        "es": "Canciones más populares por número de streams",
+        "en": "Most Popular Songs by Stream Count"
+    },
+    "source": {
+        "es": "Fuente: dataset de Spotify 2023",
+        "en": "Source: Spotify 2023 dataset"
+    }
+}
+
 #🔹 D) Crear las pestañas principales
 tabs = st.tabs(T["tabs_main"][lang])
 
