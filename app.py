@@ -270,7 +270,7 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
 
     # --- 🎧 Subpestaña 1: Recomendaciones ---
     with subtabs[0]:
-        MINI TEST MBTI — Para quienes no saben su tipo
+        #MINI TEST MBTI — Para quienes no saben su tipo
 
 # Este bloque es un test rápido que ayuda a estimar el MBTI del usuario usando solo 4 preguntas clave.
 # Lo incluimos dentro de un st.expander() para que no ocupe espacio hasta que el usuario decida abrirlo.
