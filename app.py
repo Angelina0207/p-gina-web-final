@@ -4,41 +4,7 @@ import plotly.express as px
 import unicodedata
 
 st.set_page_config("MBTI x Music x Wine", layout="wide")
-st.markdown("""
-<style>
-.titulo-intro {
-    position: relative;
-    text-align: center;
-    padding: 60px 40px;
-    background: linear-gradient(120deg, #fceef5, #fff7e6, #e0f7fa);
-    border-radius: 30px;
-    margin-top: 40px;
-    margin-bottom: 60px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-}
-.titulo-intro h1 {
-    font-size: 52px;
-    color: #D86F84;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-.floating-img {
-    position: absolute;
-    width: 60px;
-    animation: float 4s ease-in-out infinite;
-    z-index: 1;
-}
-.img1 { top: -30px; left: 30px; }
-.img2 { top: -30px; right: 30px; animation-delay: 2s; }
-</style>
 
-<div class='titulo-intro'>
-    <img src='https://img.icons8.com/emoji/48/wine-glass.png' class='floating-img img1'/>
-    <img src='https://img.icons8.com/emoji/48/musical-note.png' class='floating-img img2'/>
-    <h1>Bienvenidx a Wine & Music Explorer 🍷🎶</h1>
-    <p>¿Te imaginas que tu personalidad tenga su propia playlist… y una copa de vino perfecta para acompañarla?</p>
-</div>
-""", unsafe_allow_html=True)
 # --- CUSTOM STYLE ---
 st.markdown("""
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
