@@ -120,6 +120,7 @@ Our app is divided into two worlds to explore:
     }
 }
 
+
 #✅ PARTE 3 — Bloque visual de bienvenida
 
 # --- BLOQUE DE BIENVENIDA VISUAL ---
@@ -247,6 +248,18 @@ T["spotify_stats"] = {
         "en": "Source: Spotify 2023 dataset"
     }
 }
+
+T["wine_map"] = {
+    "header": {
+        "es": "🌍 Mapa mundial de vinos",
+        "en": "🌍 Global Wine Map"
+    },
+    "no_data": {
+        "es": "No se encontraron datos suficientes para mostrar el mapa.",
+        "en": "Not enough data found to display the map."
+    }
+}
+
 
 #🔹 D) Crear las pestañas principales
 tabs = st.tabs(T["tabs_main"][lang])
