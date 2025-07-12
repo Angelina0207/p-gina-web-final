@@ -190,7 +190,54 @@ st.markdown(f"""
         </h1>
     </div>
 """, unsafe_allow_html=True)
-st.write(T['intro']['text'][lang])
+st.markdown(f"""
+    <style>
+    @keyframes fadeIn {{
+        from {{opacity: 0; transform: translateY(-10px);}}
+        to {{opacity: 1; transform: translateY(0);}}
+    }}
+
+    @keyframes float {{
+        0% {{ transform: translateY(0px); }}
+        50% {{ transform: translateY(-10px); }}
+        100% {{ transform: translateY(0px); }}
+    }}
+
+    .titulo-bienvenida {{
+        position: relative;
+        text-align: center;
+        padding: 50px 30px;
+        background: linear-gradient(120deg, #f9e4ec, #ffe6cc, #e0f7fa);
+        border-radius: 25px;
+        margin-top: 40px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        animation: fadeIn 2s ease-in-out;
+    }}
+
+    .titulo-bienvenida h1 {{
+        font-size: 52px;
+        color: #D86F84;
+        font-weight: bold;
+        margin: 0;
+    }}
+
+    .floating-img {{
+        position: absolute;
+        width: 60px;
+        animation: float 4s ease-in-out infinite;
+    }}
+
+    .img1 {{ top: -30px; left: 30px; }}
+    .img2 {{ top: -30px; right: 30px; animation-delay: 2s; }}
+    </style>
+
+    <div class='titulo-bienvenida'>
+        <img src='https://img.icons8.com/emoji/48/wine-glass.png' class='floating-img img1'/>
+        <img src='https://img.icons8.com/emoji/48/musical-note.png' class='floating-img img2'/>
+        <h1>{T['intro']['title'][lang]}</h1>
+    </div>
+""", unsafe_allow_html=True)
+
 
 # --- LOAD DATA ---
 spotify_df = pd.read_csv("spotify-2023.csv", encoding="latin1")
