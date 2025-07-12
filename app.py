@@ -119,7 +119,7 @@ T = {
     "intro": {
         "title": {
             "es": Bienvenidx a Wine & Music Explorer 🍷🎶",
-            "en": Welcome to *Wine & Music Explorer 🍷🎶"
+            "en": Welcome to Wine & Music Explorer 🍷🎶"
         },
         "text": {
             "es": """¿Te imaginas que tu personalidad tenga su propia playlist… y una copa de vino perfecta para acompañarla?
