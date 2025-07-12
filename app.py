@@ -295,8 +295,12 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
         # Vinos recomendados
         st.subheader(T["labels"][lang]["wine_rec"])
         vinos_filtrados = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
-        if vinos_filtrados.empty:
-            st.warning(T["labels"][lang]["no_wines"])
+if vinos_filtrados.empty:
+    mensaje_personalizado = (
+        "No hay vinos para ti por lo dulce y agrio que eres 😜" if lang == "es"
+        else "No wines for you because you're too sweet and sour 😜"
+    )
+    st.warning(mensaje_personalizado)
         else:
             for _, row in vinos_filtrados.head(3).iterrows():
                 titulo = row.get("title", "Vino")
