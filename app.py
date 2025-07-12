@@ -116,22 +116,29 @@ T = {
             "en": "✨ Welcome to *Wine & Music Explorer* 🍷🎶"
         },
         "text": {
-            "es": """¿Sabías que tu personalidad podría tener su propia banda sonora y copa de vino ideal?
+            "es": """¿Te imaginas que tu personalidad tenga su propia playlist… y una copa de vino perfecta para acompañarla?
+¡Aquí lo hacemos realidad!
+Sumérgete en una experiencia interactiva donde el MBTI, la música y el vino se combinan para brindarte una aventura sensorial única.
 
-Esta app interactiva está dividida en dos secciones principales:
+Nuestra app se divide en dos mundos por explorar::
 
-🔸 **Experiencia personalizada**  
-🔸 **Exploración de datos**
+🔸 **Experiencia personalizada – Descubre tu maridaje ideal entre notas musicales y sabores.**  
+🔸 **Exploración de datos – Navega por insights que conectan tipos de personalidad con preferencias musicales y vinícolas.**
 
-¡Descorcha, explora y disfruta! 🥂""",
-            "en": """Did you know your personality might have its own soundtrack and perfect wine?
+🎧🍇 ¡Dale play, sirve tu copa y empieza a explorar!
+Tu viaje sensorial comienza aquí.""",
+            "en": """Can you imagine your personality having its own playlist... and the perfect glass of wine to pair it with?
+We make it a reality here!
+Immerse yourself in an interactive experience where MBTI, music, and wine combine to provide you with a unique sensory adventure.
 
-This interactive app is divided into two main sections:
+Our app is divided into two worlds to explore:
+:
 
-🔸 **Personalized Experience**  
-🔸 **Data Exploration**
+🔸 **Personalized Experience – Discover your ideal pairing of musical notes and flavors.**  
+🔸 **Data Exploration – Browse insights that connect personality types with musical and wine preferences.**
 
-Uncork, explore, and enjoy! 🥂"""
+🎧🍇 Press play, pour your glass, and start exploring!
+Your sensory journey begins here."""
         }
     },
     "songs_tab": {
