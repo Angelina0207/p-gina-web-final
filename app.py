@@ -177,19 +177,6 @@ Your sensory journey begins here."""
     }
 }
 
-# --- INTRO ---
-st.markdown(f"""
-    <div style='text-align:center; margin-top:30px;'>
-        <h1 style='
-            font-size: 48px;
-            font-weight: 700;
-            color: #D86F84;
-            animation: fadeIn 2s ease-in-out;
-        '>
-            {T['intro']['title'][lang]}
-        </h1>
-    </div>
-""", unsafe_allow_html=True)
 st.markdown(f"""
     <style>
     @keyframes fadeIn {{
@@ -203,41 +190,51 @@ st.markdown(f"""
         100% {{ transform: translateY(0px); }}
     }}
 
-    .titulo-bienvenida {{
+    .titulo-intro {{
         position: relative;
         text-align: center;
-        padding: 50px 30px;
-        background: linear-gradient(120deg, #f9e4ec, #ffe6cc, #e0f7fa);
-        border-radius: 25px;
+        padding: 60px 40px;
+        background: linear-gradient(120deg, #fceef5, #fff7e6, #e0f7fa);
+        border-radius: 30px;
         margin-top: 40px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        animation: fadeIn 2s ease-in-out;
+        margin-bottom: 60px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1.5s ease-in-out;
     }}
 
-    .titulo-bienvenida h1 {{
+    .titulo-intro h1 {{
         font-size: 52px;
         color: #D86F84;
         font-weight: bold;
-        margin: 0;
+        margin-bottom: 20px;
+    }}
+
+    .titulo-intro p {{
+        font-size: 18px;
+        color: #555;
+        line-height: 1.6;
+        max-width: 700px;
+        margin: auto;
     }}
 
     .floating-img {{
         position: absolute;
         width: 60px;
         animation: float 4s ease-in-out infinite;
+        z-index: 1;
     }}
 
     .img1 {{ top: -30px; left: 30px; }}
     .img2 {{ top: -30px; right: 30px; animation-delay: 2s; }}
     </style>
 
-    <div class='titulo-bienvenida'>
+    <div class='titulo-intro'>
         <img src='https://img.icons8.com/emoji/48/wine-glass.png' class='floating-img img1'/>
         <img src='https://img.icons8.com/emoji/48/musical-note.png' class='floating-img img2'/>
         <h1>{T['intro']['title'][lang]}</h1>
+        <p>{T['intro']['text'][lang]}</p>
     </div>
 """, unsafe_allow_html=True)
-
 
 # --- LOAD DATA ---
 spotify_df = pd.read_csv("spotify-2023.csv", encoding="latin1")
