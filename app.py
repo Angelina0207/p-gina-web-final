@@ -270,28 +270,26 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
 
     # --- 🎧 Subpestaña 1: Recomendaciones ---
     with subtabs[0]:
-        st.header("🎧 " + ( "Recomendaciones musicales y de vino" if lang == "es" else "Music & Wine Recommendations"))
+        st.header("🎧 " + ("Recomendaciones musicales y de vino" if lang == "es" else "Music & Wine Recommendations"))
+
+        # 🔹 Explicación del MBTI
+        explicacion_mbti = {
+            "es": """<p style='font-size:16px; line-height:1.6;'>
+            El <b>MBTI</b> (Indicador de Tipos de Myers-Briggs) es una herramienta que clasifica las personalidades en 16 tipos distintos según cómo percibes el mundo y tomas decisiones.  
+            Esta clasificación ayuda a entender tus preferencias y cómo te conectas con el entorno, ¡incluso con la música y el vino que podrías disfrutar más!
+            </p>""",
+            "en": """<p style='font-size:16px; line-height:1.6;'>
+            The <b>MBTI</b> (Myers-Briggs Type Indicator) is a tool that categorizes personalities into 16 distinct types based on how you perceive the world and make decisions.      
+            It helps you understand your preferences and how you connect with your surroundings — even the music and wine you might enjoy the most!
+            </p>"""
+        }
+        st.markdown(explicacion_mbti[lang], unsafe_allow_html=True)
+
+        # 🔹 Selección de tipo MBTI
         mbti = st.selectbox(T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti1")
         profile = mbti_profiles[mbti]
         wine = profile["wine"]
         desc = profile["description"][lang]
-# Explicación del MBTI
-        explicacion_mbti = {
-            "es": """<p style='font-size:16px; line-height:1.6;'>
-        El <b>MBTI</b> (Indicador de Tipos de Myers-Briggs) es una herramienta que clasifica las personalidades en 16 tipos distintos según cómo percibes el mundo y tomas decisiones.  
-        Esta clasificación ayuda a entender tus preferencias y cómo te conectas con el entorno, ¡incluso con la música y el vino que podrías disfrutar más!
-        </p>""",
-            "en": """<p style='font-size:16px; line-height:1.6;'>
-        The <b>MBTI</b> (Myers-Briggs Type Indicator) is a tool that categorizes personalities into 16 distinct types based on how you perceive the world and make decisions.      
-        It helps you understand your preferences and how you connect with your surroundings — even the music and wine you might enjoy the most!
-        </p>"""
-        }
-
-# Mostrar la explicación antes del selector
-st.markdown(explicacion_mbti[lang], unsafe_allow_html=True)
-
-# Mostrar la explicación antes del selector
-st.markdown(explicacion_mbti[lang], unsafe_allow_html=True)
 
         st.markdown(f"""
             <div style='background-color:{profile["color"]}; padding:15px; border-radius:10px'>
@@ -300,7 +298,7 @@ st.markdown(explicacion_mbti[lang], unsafe_allow_html=True)
             </div>
         """, unsafe_allow_html=True)
 
-        # Canciones recomendadas (aleatorias)
+        # 🔹 Canciones recomendadas (aleatorias)
         st.subheader(T["labels"][lang]["song_rec"])
         canciones = spotify_df[
             (spotify_df["valence_%"] >= 50) & (spotify_df["energy_%"] >= 50)
@@ -308,23 +306,24 @@ st.markdown(explicacion_mbti[lang], unsafe_allow_html=True)
         for _, row in canciones.iterrows():
             st.markdown(f"- **{row['track_name']}** — *{row['artist(s)_name']}*")
 
-        # Vinos recomendados
+        # 🔹 Vinos recomendados
         st.subheader(T["labels"][lang]["wine_rec"])
         vinos_filtrados = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
-if vinos_filtrados.empty:
-    mensaje_personalizado = (
-        "No hay vinos para ti por lo dulce y agrio que eres 😜" if lang == "es"
-        else "No wines for you because you're too sweet and sour 😜"
-    )
-    st.warning(mensaje_personalizado)
-else:
-    for _, row in vinos_filtrados.head(3).iterrows():
-        titulo = row.get("title", "Vino")
-        puntos = row.get("points", "N/A")
-        pais = row.get("country", "País desconocido" if lang == "es" else "Unknown")
-        descripcion = row.get("description", "Sin descripción." if lang == "es" else "No description.")
-        st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
-        st.caption(f"*{descripcion}*")
+
+        if vinos_filtrados.empty:
+            mensaje_personalizado = (
+                "No hay vinos para ti por lo dulce y agrio que eres 😜" if lang == "es"
+                else "No wines for you because you're too sweet and sour 😜"
+            )
+            st.warning(mensaje_personalizado)
+        else:
+            for _, row in vinos_filtrados.head(3).iterrows():
+                titulo = row.get("title", "Vino")
+                puntos = row.get("points", "N/A")
+                pais = row.get("country", "País desconocido" if lang == "es" else "Unknown")
+                descripcion = row.get("description", "Sin descripción." if lang == "es" else "No description.")
+                st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
+                st.caption(f"*{descripcion}*")
 
     # --- 🚀 Subpestaña 2: Interactivo ---
     with subtabs[1]:
