@@ -270,24 +270,24 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
 
     # --- 🎧 Subpestaña 1: Recomendaciones ---
     with subtabs[0]:
-       ✅ MINI TEST MBTI — Para quienes no saben su tipo
+        MINI TEST MBTI — Para quienes no saben su tipo
 
-# 👉 Este bloque es un test rápido que ayuda a estimar el MBTI del usuario usando solo 4 preguntas clave.
-# 👉 Lo incluimos dentro de un st.expander() para que no ocupe espacio hasta que el usuario decida abrirlo.
+# Este bloque es un test rápido que ayuda a estimar el MBTI del usuario usando solo 4 preguntas clave.
+# Lo incluimos dentro de un st.expander() para que no ocupe espacio hasta que el usuario decida abrirlo.
 with st.expander("❓ ¿No sabes tu tipo MBTI? Haz este mini test rápido", expanded=False):
     st.markdown("Responde estas 4 preguntas para sugerirte un tipo MBTI aproximado:")
 
     # 💡 Pregunta 1: ¿Introvertido o extrovertido?
-    q1 = st.radio("1️⃣ ¿Prefieres recargar energías estando solo/a o con otras personas?", ["Solo/a (I)", "Con otros (E)"])
+    q1 = st.radio("1️) ¿Prefieres recargar energías estando solo/a o con otras personas?", ["Solo/a (I)", "Con otros (E)"])
 
     # 💡 Pregunta 2: ¿Te guías más por la lógica o la empatía?
-    q2 = st.radio("2️⃣ ¿Te guías más por la lógica o por la empatía?", ["Lógica (T)", "Empatía (F)"])
+    q2 = st.radio("2️) ¿Te guías más por la lógica o por la empatía?", ["Lógica (T)", "Empatía (F)"])
 
     # 💡 Pregunta 3: ¿Hechos o intuición?
-    q3 = st.radio("3️⃣ ¿Tomas decisiones basándote en hechos o intuiciones?", ["Hechos (S)", "Intuición (N)"])
+    q3 = st.radio("3️) ¿Tomas decisiones basándote en hechos o intuiciones?", ["Hechos (S)", "Intuición (N)"])
 
     # 💡 Pregunta 4: ¿Eres estructurado o más espontáneo?
-    q4 = st.radio("4️⃣ ¿Eres más estructurado o improvisador?", ["Estructurado (J)", "Improvisador (P)"])
+    q4 = st.radio("4️) ¿Eres más estructurado o improvisador?", ["Estructurado (J)", "Improvisador (P)"])
 
     # 👉 Al hacer clic en este botón, se construye el MBTI estimado con base en las respuestas del usuario
     if st.button("Ver mi MBTI estimado"):
