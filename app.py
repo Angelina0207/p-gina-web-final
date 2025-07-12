@@ -154,6 +154,31 @@ mbti_profiles = {
     "INFJ": {"description": {"es": "Visionario, intuitivo, profundo", "en": "Visionary, intuitive, deep"}, "wine": "Syrah", "color": "#d9d2e9"},
     "ISTJ": {"description": {"es": "Tradicional, metódico, práctico", "en": "Traditional, methodical, practical"}, "wine": "Malbec", "color": "#d9ead3"}
 }
+# --- ETIQUETAS MULTILINGÜES ---
+T["labels"] = {
+    "es": {
+        "mbti_select": "Selecciona tu tipo MBTI",
+        "ideal_wine": "Tu vino ideal es:",
+        "song_rec": "Canciones recomendadas",
+        "wine_rec": "Vinos sugeridos",
+        "no_wines": "No se encontraron vinos que coincidan.",
+        "no_songs": "No se encontraron canciones que coincidan.",
+        "energy": "Nivel de energía",
+        "happiness": "Nivel de felicidad (valence)",
+        "danceability": "Nivel de bailabilidad"
+    },
+    "en": {
+        "mbti_select": "Select your MBTI type",
+        "ideal_wine": "Your ideal wine is:",
+        "song_rec": "Recommended Songs",
+        "wine_rec": "Suggested Wines",
+        "no_wines": "No matching wines found.",
+        "no_songs": "No matching songs found.",
+        "energy": "Energy level",
+        "happiness": "Happiness level (valence)",
+        "danceability": "Danceability level"
+    }
+}
 
 #🔹 C) Títulos de pestañas multilingües
 T["tabs_main"] = {
