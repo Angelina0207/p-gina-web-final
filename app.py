@@ -123,16 +123,15 @@ Our app is divided into two worlds to explore:
 
 #✅ PARTE 3 — Bloque visual de bienvenida
 
-# --- BLOQUE DE BIENVENIDA VISUAL ---
 st.markdown(f"""
-    <div class='titulo-intro'>
-        <img src='https://raw.githubusercontent.com/Angelina0207/p-gina-web-final/main/images/gato.jpg'
-             style='width: 120px; display: block; margin: 0 auto 20px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: float 4s ease-in-out infinite;' />
-
-        <h1>{T['intro']['title'][lang]}</h1>
-        <p>{T['intro']['text'][lang]}</p>
-    </div>
+<div class='titulo-intro'>
+    <img src='https://raw.githubusercontent.com/Angelina0207/p-gina-web-final/main/images/gato.jpg'
+         style='width: 120px; display: block; margin: 0 auto 20px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: float 4s ease-in-out infinite;' />
+    <h1 style='margin-bottom: 20px;'>{T['intro']['title'][lang]}</h1>
+    <p>{T['intro']['text'][lang].replace(chr(10), "<br>")}</p>
+</div>
 """, unsafe_allow_html=True)
+
 #✅ PARTE 4 — Carga de datos, perfiles MBTI y estructura de pestañas
 
 #🔹 A) Carga de datos
