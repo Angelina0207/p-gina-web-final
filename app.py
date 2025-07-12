@@ -146,14 +146,14 @@ spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
 
 #🔹 B) Diccionario de perfiles MBTI
 mbti_profiles = {
-    "INFP": {"description": {"es": "Soñador, sensible, introspectivo", "en": "Dreamy, sensitive, introspective"}, "wine": "Pinot Noir", "color": "#e6ccff"},
-    "ENFP": {"description": {"es": "Espontáneo, creativo, sociable", "en": "Spontaneous, creative, sociable"}, "wine": "Sauvignon Blanc", "color": "#ffe680"},
-    "INTJ": {"description": {"es": "Analítico, reservado, estratégico", "en": "Analytical, reserved, strategic"}, "wine": "Cabernet Sauvignon", "color": "#c2f0c2"},
-    "ISFJ": {"description": {"es": "Cálido, protector, leal", "en": "Warm, protective, loyal"}, "wine": "Merlot", "color": "#f0d9b5"},
-    "ENTP": {"description": {"es": "Innovador, conversador, curioso", "en": "Innovative, talkative, curious"}, "wine": "Rosé", "color": "#ffcce6"},
-    "ESFP": {"description": {"es": "Alegre, impulsivo, enérgico", "en": "Cheerful, impulsive, energetic"}, "wine": "Espumante", "color": "#ffcccc"},
-    "INFJ": {"description": {"es": "Visionario, intuitivo, profundo", "en": "Visionary, intuitive, deep"}, "wine": "Syrah", "color": "#d9d2e9"},
-    "ISTJ": {"description": {"es": "Tradicional, metódico, práctico", "en": "Traditional, methodical, practical"}, "wine": "Malbec", "color": "#d9ead3"}
+    "INFP": {"description": {"es": "Soñador(a/e), sensible, introspectivx", "en": "Dreamy, sensitive, introspective"}, "wine": "Pinot Noir", "color": "#e6ccff"},
+    "ENFP": {"description": {"es": "Espontánex, creativx, sociable", "en": "Spontaneous, creative, sociable"}, "wine": "Sauvignon Blanc", "color": "#ffe680"},
+    "INTJ": {"description": {"es": "Analíticx, reservadx, estratégicx", "en": "Analytical, reserved, strategic"}, "wine": "Cabernet Sauvignon", "color": "#c2f0c2"},
+    "ISFJ": {"description": {"es": "Cálidx, protector(a/e), leal", "en": "Warm, protective, loyal"}, "wine": "Merlot", "color": "#f0d9b5"},
+    "ENTP": {"description": {"es": "Innovador(a/e), conversador(a/e), curiosx", "en": "Innovative, talkative, curious"}, "wine": "Rosé", "color": "#ffcce6"},
+    "ESFP": {"description": {"es": "Alegre, impulsivx, enérgicx", "en": "Cheerful, impulsive, energetic"}, "wine": "Espumante", "color": "#ffcccc"},
+    "INFJ": {"description": {"es": "Visionarix, intuitivx, profundx", "en": "Visionary, intuitive, deep"}, "wine": "Syrah", "color": "#d9d2e9"},
+    "ISTJ": {"description": {"es": "Tradicional, metódicx, prácticx", "en": "Traditional, methodical, practical"}, "wine": "Malbec", "color": "#d9ead3"}
 }
 # --- ETIQUETAS MULTILINGÜES ---
 T["labels"] = {
