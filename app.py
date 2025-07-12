@@ -127,7 +127,7 @@ Our app is divided into two worlds to explore:
 st.markdown(f"""
     <div class='titulo-intro'>
         <img src='https://raw.githubusercontent.com/Angelina0207/p-gina-web-final/main/images/gato.jpg' 
-             style='width: 100px; display: block; margin: 0 auto 20px; border-radius: 50%; animation: float 4s ease-in-out infinite;' />
+             style='width: 120px; display: block; margin: 0 auto 20px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: float 4s ease-in-out infinite;' />
 
         <img src='https://img.icons8.com/emoji/48/wine-glass.png' class='floating-img img1'/>
         <img src='https://img.icons8.com/emoji/48/musical-note.png' class='floating-img img2'/>
