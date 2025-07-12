@@ -1,3 +1,5 @@
+#parte 1
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -14,13 +16,11 @@ html, body, [class*="css"] {
     background-color: #fffaf3;
     color: #333333;
 }
-
 h1, h2, h3 {
     color: #D86F84;
     font-weight: 600;
     text-align: center;
 }
-
 .stButton>button {
     background-color: #ffa07a;
     color: white;
@@ -29,18 +29,15 @@ h1, h2, h3 {
     font-weight: bold;
     border: none;
 }
-
 @keyframes fadeIn {
     from {opacity: 0; transform: translateY(-10px);}
     to {opacity: 1; transform: translateY(0);}
 }
-
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
 }
-
 .titulo-intro {
     position: relative;
     text-align: center;
@@ -52,14 +49,12 @@ h1, h2, h3 {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     animation: fadeIn 1.5s ease-in-out;
 }
-
 .titulo-intro h1 {
     font-size: 52px;
     color: #D86F84;
     font-weight: bold;
     margin-bottom: 20px;
 }
-
 .titulo-intro p {
     font-size: 18px;
     color: #555;
@@ -68,19 +63,20 @@ h1, h2, h3 {
     margin: auto;
     white-space: pre-wrap;
 }
-
 .floating-img {
     position: absolute;
     width: 60px;
     animation: float 4s ease-in-out infinite;
     z-index: 1;
 }
-
 .img1 { top: -30px; left: 30px; }
 .img2 { top: -30px; right: 30px; animation-delay: 2s; }
 </style>
 """, unsafe_allow_html=True)
-# --- FUNCIÓN DE NORMALIZACIÓN DE TEXTO ---
+
+#✅ PARTE 2 — Funciones, idioma y textos introductorios
+
+# --- FUNCIONES DE TEXTO ---
 def normalize_text(text):
     text = text.lower()
     return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8').strip()
@@ -89,7 +85,7 @@ def contains_word(text, word):
     return normalize_text(word) in normalize_text(text)
 
 # --- SELECTOR DE IDIOMA ---
-language = st.selectbox("🌐 Language (there are only two xd) / Idioma (solo hay dos xd)", ["Español", "English"])
+language = st.selectbox("🌐 Language / Idioma", ["Español", "English"])
 lang = "es" if language == "Español" else "en"
 
 # --- TEXTOS MULTILINGÜES ---
@@ -124,7 +120,7 @@ Our app is divided into two worlds to explore:
     }
 }
 
-#✅ PARTE 3 — Bloque de bienvenida dinámico
+#✅ PARTE 3 — Bloque visual de bienvenida
 
 # --- BLOQUE DE BIENVENIDA VISUAL ---
 st.markdown(f"""
@@ -137,18 +133,17 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 #✅ PARTE 4 — Carga de datos, perfiles MBTI y estructura de pestañas
-#🔹 A) Carga de datos (asegúrate de tener los CSV)
 
-# --- CARGA DE DATOS ---
+#🔹 A) Carga de datos
 spotify_df = pd.read_csv("spotify-2023.csv", encoding="latin1")
 wine_df = pd.read_csv("winemag-data_first150k.csv", encoding="latin1", on_bad_lines='skip')
 
+# Limpieza rápida
 wine_df.columns = wine_df.columns.str.strip()
 wine_df["points"] = pd.to_numeric(wine_df["points"], errors="coerce")
 spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
-# B) Diccionario de perfiles MBTI
 
-# --- PERFILES MBTI MULTILINGÜES ---
+#🔹 B) Diccionario de perfiles MBTI
 mbti_profiles = {
     "INFP": {"description": {"es": "Soñador, sensible, introspectivo", "en": "Dreamy, sensitive, introspective"}, "wine": "Pinot Noir", "color": "#e6ccff"},
     "ENFP": {"description": {"es": "Espontáneo, creativo, sociable", "en": "Spontaneous, creative, sociable"}, "wine": "Sauvignon Blanc", "color": "#ffe680"},
@@ -159,9 +154,8 @@ mbti_profiles = {
     "INFJ": {"description": {"es": "Visionario, intuitivo, profundo", "en": "Visionary, intuitive, deep"}, "wine": "Syrah", "color": "#d9d2e9"},
     "ISTJ": {"description": {"es": "Tradicional, metódico, práctico", "en": "Traditional, methodical, practical"}, "wine": "Malbec", "color": "#d9ead3"}
 }
-#C) Títulos de las pestañas
 
-# --- TÍTULOS DE PESTAÑAS PRINCIPALES ---
+#🔹 C) Títulos de pestañas multilingües
 T["tabs_main"] = {
     "es": ["🎧 Tu Mood Ideal", "🎼 Explorar canciones", "📈 Estadísticas Spotify", "🌍 Mapa mundial de vinos"],
     "en": ["🎧 Your Ideal Mood", "🎼 Explore Songs", "📈 Spotify Stats", "🌍 Global Wine Map"]
@@ -170,17 +164,20 @@ T["subtabs_mood"] = {
     "es": ["🎧 Recomendaciones", "🚀 Interactivo"],
     "en": ["🎧 Recommendations", "🚀 Interactive"]
 }
-#D) Crear las pestañas base
 
-# --- CREAR PESTAÑAS ---
+#🔹 D) Crear las pestañas principales
 tabs = st.tabs(T["tabs_main"][lang])
 
+#✅ PARTE 5 — Pestaña "Tu Mood Ideal" (Recomendaciones + Interactivo)
+python
+Copiar
+Editar
 with tabs[0]:  # 🎧 Tu Mood Ideal
     subtabs = st.tabs(T["subtabs_mood"][lang])
 
     # --- 🎧 Subpestaña 1: Recomendaciones ---
     with subtabs[0]:
-        st.header(T["labels"][lang]["song_rec"])
+        st.header("🎧 " + ( "Recomendaciones musicales y de vino" if lang == "es" else "Music & Wine Recommendations"))
         mbti = st.selectbox(T["labels"][lang]["mbti_select"], list(mbti_profiles.keys()), key="mbti1")
         profile = mbti_profiles[mbti]
         wine = profile["wine"]
@@ -193,13 +190,15 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
             </div>
         """, unsafe_allow_html=True)
 
-        # Canciones recomendadas
+        # Canciones recomendadas (aleatorias)
         st.subheader(T["labels"][lang]["song_rec"])
-        canciones = spotify_df[(spotify_df["valence_%"] >= 50) & (spotify_df["energy_%"] >= 50)].sample(3)
+        canciones = spotify_df[
+            (spotify_df["valence_%"] >= 50) & (spotify_df["energy_%"] >= 50)
+        ].sample(3)
         for _, row in canciones.iterrows():
             st.markdown(f"- **{row['track_name']}** — *{row['artist(s)_name']}*")
 
-        # Vinos sugeridos
+        # Vinos recomendados
         st.subheader(T["labels"][lang]["wine_rec"])
         vinos_filtrados = wine_df[wine_df["variety"].fillna("").str.contains(wine, case=False)]
         if vinos_filtrados.empty:
@@ -208,13 +207,12 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
             for _, row in vinos_filtrados.head(3).iterrows():
                 titulo = row.get("title", "Vino")
                 puntos = row.get("points", "N/A")
-                pais = row.get("country", "País desconocido" if lang == "es" else "Unknown")
+                pais = row.get("country", "Desconocido" if lang == "es" else "Unknown")
                 descripcion = row.get("description", "Sin descripción." if lang == "es" else "No description.")
                 st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
                 st.caption(f"*{descripcion}*")
 
-
-          # --- 🚀 Subpestaña 2: Interactivo ---
+    # --- 🚀 Subpestaña 2: Interactivo ---
     with subtabs[1]:
         st.header("🚀 " + ("Explora tu mood musical y vinícola" if lang == "es" else "Explore your musical & wine mood"))
 
@@ -241,7 +239,9 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
 
         st.markdown(f"🍷 **{T['labels'][lang]['ideal_wine']}** {vino}")
 
-  with tabs[1]:
+#✅ PARTE 6 — Pestaña 2: "🎼 Explorar canciones"
+
+with tabs[1]:
     st.header(T["songs_tab"]["header"][lang])
 
     spotify_df["streams"] = pd.to_numeric(spotify_df["streams"], errors="coerce")
@@ -298,10 +298,11 @@ with tabs[0]:  # 🎧 Tu Mood Ideal
     else:
         st.warning(T["songs_tab"]["no_data"][lang])
 
-
+#✅ PARTE 7 — Estadísticas de Spotify
 with tabs[2]:
     st.header(T["spotify_stats"]["header"][lang])
 
+    # --- Histograma de BPM ---
     st.subheader(T["spotify_stats"]["bpm"][lang])
     fig_bpm = px.histogram(
         spotify_df, 
@@ -312,8 +313,21 @@ with tabs[2]:
     )
     st.plotly_chart(fig_bpm)
 
-    st.subheader(T["spotify_stats"]["energy_dance"][
-                     st.subheader("🎧 Canciones más populares por número de streams")
+    # --- Dispersión Energía vs Danceability ---
+    st.subheader(T["spotify_stats"]["energy_dance"][lang])
+    fig_energy_dance = px.scatter(
+        spotify_df.sample(300),
+        x="energy_%",
+        y="danceability_%",
+        hover_data=["track_name", "artist(s)_name"],
+        color="danceability_%",
+        labels={"energy_%": "Energía", "danceability_%": "Bailabilidad"},
+        title="Energía vs Bailabilidad"
+    )
+    st.plotly_chart(fig_energy_dance)
+
+    # --- Top 10 canciones por streams ---
+    st.subheader("🎧 Canciones más populares por número de streams")
     top_streams = spotify_df.sort_values("streams", ascending=False).head(10)
     fig_top = px.bar(
         top_streams,
@@ -325,10 +339,11 @@ with tabs[2]:
     )
     st.plotly_chart(fig_top)
 
-    st.caption(
-        T["spotify_stats"]["source"][lang]
-    )
-           # 🌍 Global Wine Map
+    # --- Fuente de datos ---
+    st.caption(T["spotify_stats"]["source"][lang])
+
+#PARTE 8 — Mapa mundial de vinos
+
 with tabs[3]:
     st.header(T["wine_map"]["header"][lang])
 
@@ -357,10 +372,3 @@ with tabs[3]:
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning(T["wine_map"]["no_data"][lang])
-
-
-
-
-
-
-
