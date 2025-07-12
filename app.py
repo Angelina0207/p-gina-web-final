@@ -301,14 +301,14 @@ if vinos_filtrados.empty:
         else "No wines for you because you're too sweet and sour 😜"
     )
     st.warning(mensaje_personalizado)
-        else:
-            for _, row in vinos_filtrados.head(3).iterrows():
-                titulo = row.get("title", "Vino")
-                puntos = row.get("points", "N/A")
-                pais = row.get("country", "Desconocido" if lang == "es" else "Unknown")
-                descripcion = row.get("description", "Sin descripción." if lang == "es" else "No description.")
-                st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
-                st.caption(f"*{descripcion}*")
+else:
+    for _, row in vinos_filtrados.head(3).iterrows():
+        titulo = row.get("title", "Vino")
+        puntos = row.get("points", "N/A")
+        pais = row.get("country", "País desconocido" if lang == "es" else "Unknown")
+        descripcion = row.get("description", "Sin descripción." if lang == "es" else "No description.")
+        st.markdown(f"**{titulo}** — ⭐ {puntos} — {pais}")
+        st.caption(f"*{descripcion}*")
 
     # --- 🚀 Subpestaña 2: Interactivo ---
     with subtabs[1]:
