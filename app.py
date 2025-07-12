@@ -373,6 +373,10 @@ with tabs[1]:
             (1_000_000, 10_000_000),
             step=500_000
         )
+        orden = st.selectbox(
+            T["songs_tab"]["sort"][lang],
+            ["streams", "valence_%", "energy_%", "danceability_%"]
+        )
 
         filtrado = spotify_clean[
             (spotify_clean["released_year"] == año) &
