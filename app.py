@@ -189,7 +189,41 @@ T["subtabs_mood"] = {
     "es": ["🎧 Recomendaciones", "🚀 Interactivo"],
     "en": ["🎧 Recommendations", "🚀 Interactive"]
 }
-
+# --- TEXTOS DE LA PESTAÑA DE CANCIONES ---
+T["songs_tab"] = {
+    "header": {
+        "es": "🎼 Explora canciones por año y popularidad",
+        "en": "🎼 Explore songs by year and popularity"
+    },
+    "year": {
+        "es": "Selecciona el año de lanzamiento",
+        "en": "Select release year"
+    },
+    "streams": {
+        "es": "Rango de reproducciones",
+        "en": "Stream range"
+    },
+    "sort": {
+        "es": "Ordenar por",
+        "en": "Sort by"
+    },
+    "filtered": {
+        "es": "Canciones filtradas:",
+        "en": "Filtered Songs:"
+    },
+    "artists": {
+        "es": "Top artistas más frecuentes",
+        "en": "Top frequent artists"
+    },
+    "energy_valence": {
+        "es": "Distribución de energía y felicidad",
+        "en": "Energy and happiness distribution"
+    },
+    "no_data": {
+        "es": "No hay datos disponibles para mostrar.",
+        "en": "No data available to display."
+    }
+}
 #🔹 D) Crear las pestañas principales
 tabs = st.tabs(T["tabs_main"][lang])
 
